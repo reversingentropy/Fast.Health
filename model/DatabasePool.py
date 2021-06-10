@@ -1,38 +1,33 @@
-from mysql.connector import pooling
-from mysql.connector.conversion import MySQLConverter
-from config.settings import Settings
+# -*- coding: utf-8 -*-
+"""
+Created on Mon May  3 20:28:22 2021
 
-class NumpyMySQLConverter(MySQLConverter):
-    def _float32_to_mysql(self, value):
-        return float(value)
+@author: Lenovo
+"""
+from config.Settings import Settings
+import mariadb
 
-    def _float64_to_mysql(self, value):
-        return float(value)
-
-    def _int32_to_mysql(self, value):
-        return int(value)
-
-    def _int64_to_mysql(self, value):
-        return int(value)
+import sys
 
 class DatabasePool:
-    #class variable
-    connection_pool = pooling.MySQLConnectionPool(
-                            pool_name="ws_pool",
-                            #    pool_size=5,
-                            #    host='localhost',
-                            #    database='furniture',
-                            #    user='root',
-                            #    password='sum381Tk!')
-                            pool_size=5,
-                            host=Settings.host,
-                            database=Settings.database,
-                            user=Settings.user,
-                            password=Settings.password)
-
-
+    
+    # class variable
+    try:
+        connection_pool = mariadb.ConnectionPool(
+            pool_name = 'ws_pool',
+            pool_size = 5,
+            host = Settings.host,
+            port = 3306,
+            user = Settings.user,
+            password = Settings.password,
+            database=Settings.database
+        )
+    except mariadb.Error as e:
+        print(f"Error connecting to MariaDB Platform: {e}")
+        sys.exit(1)
+    
     @classmethod
-    def getConnection(cls): 
+    def getConnection(cls):
         dbConn = cls.connection_pool.get_connection()
-#        dbConn.set_converter_class(NumpyMySQLConverter)        
+    
         return dbConn

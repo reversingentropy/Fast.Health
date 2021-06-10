@@ -2,5 +2,36 @@
 {% block title %}Users{% endblock %}
 {% block content %}
 	<h1>List of Users of this System</h1>
-	<p></p>
+		<table id = "userlist" class = "display" style="width:100%">
+		<thead>
+		<tr>
+			<th>User ID</th>
+			<th>User Name</th>
+			<th>Email</th>
+			<th>Role</th>
+			<th>Password</th>
+		</tr>
+		</thead>
+		<tbody>
+			{% for res in results %}
+			<tr>
+						<td class="card-text">{{res.userid}}</td>
+						<td class="card-text">{{res.username}}</td>
+						<td class="card-text">{{res.email}}</td>
+						<td class="card-text">{{res.role}}</td>
+						<td class="card-text">{{res.password}}</td>
+						<td><a href="http://myirisprediction.herokuapp.com/del_IrisRec?predictionid={{res.userid}}" class="btn btn-primary" class="View">Delete</a></td>
+			</tr>
+			{%endfor%}
+		</tbody>
+		<tfoot>
+			<tr>
+				<th>User ID</th>
+				<th>User Name</th>
+				<th>Email</th>
+				<th>Role</th>
+				<th>Password</th>
+			</tr>
+		</tfoot>	
+		</table>
 {% endblock %}

@@ -1,11 +1,37 @@
 import functools
 from flask import Flask,jsonify,request,g, redirect, make_response, render_template
-from config.settings import Settings
+from config.Settings import Settings
+from model.Params import Param
 
 import jwt
 import re
 
 
+def require_login(func):
+    @functools.wraps(func)
+    def secure_login(*args, **kwargs):
+        auth = True
+        auth_token=request.cookies.get("jwt")
+
+        if auth_token == None:
+            auth = False
+        if auth_token:
+            try:
+                print('auth_token found')
+                # auth_token = auth_token.encode('utf-8')
+                payload = jwt.decode(auth_token, Settings.secretKey, algorithms=["HS256"])
+                g.userid = payload['userid'] # update info in flask application context's g which lasts for one req/res cycle
+                g.role = payload['role']
+
+            except jwt.exceptions.InvalidSignatureError as err:
+                print(err)
+                auth = False # Failed check
+
+        if auth==False:
+            return render_template('login.html', params=Param.LoggingWithErrorParams()), 401
+        return func(*args, **kwargs)
+    
+    return secure_login
 
 def login_required(func):
     @functools.wraps(func)
@@ -41,32 +67,69 @@ def login_required(func):
 
     return checkLogin
 
+def require_admin(func):
+    @functools.wraps(func)
+    def secure_admin(*args, **kwargs):
+        auth = True
+        if g.role != 'admin':
+            auth = False
+
+        if auth==False:
+            return jsonify({'Message' : 'Not Authorized!'}),401 # return response
+
+        return func(*args, **kwargs)
+    
+    return secure_admin
+
+
+
+def require_isAdminOrSelf(func):
+    @functools.wraps(func)
+    def secure_adminorself(*args, **kwargs):
+        auth = True
+
+        if g.role != 'admin' and g.userid != kwargs['userid']:
+            auth = False # Failed check
+
+        if auth==False:
+            return jsonify({'Message' : 'Not Authorized!'}),401 # return response
+
+        return func(*args, **kwargs)
+    
+    return secure_adminorself
+
 
 ## Validate User Info b4 Insert
 def validateRegister(func):
     @functools.wraps(func)
     def validate(*args, **kwargs):
-        username=request.json['username']
-        email=request.json['email']
-        role=request.json['role']
-        password=request.json['password']
+        username = request.form['usernamer']
+        email = request.form['emailr']
+        role = request.form['roler']
+        password = request.form['passwordr']
 
-        patternUsername=re.compile('^[a-zA-Z0-9]+$')
+        patternUsername = re.compile('^[a-zA-Z0-9_. -]+$')
+        # patternEmail = re.compile('^[a-zA-Z0-9]+[\._]?[a-zA-Z0-9]+@\w+\.\w+$')
+        patternEmail = re.compile('^[a-zA-Z0-9_.-]+@[a-zA-Z0-9.]+$')
+        patternPassword = re.compile('^[a-zA-Z0-9]{8,}$')
+        # print('Testing')
+        # print(username, patternUsername.match(username))
+        # print(email, patternEmail.match(email))
+        # print(password, patternPassword.match(password))
 
-        #simple email check
-        #patternEmail=re.compile('^[a-zA-Z0-9]+[\._]?[a-zA-Z0-9]+@\w+\.\w+$') 
-        patternEmail=re.compile('^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$')
-        patternPassword=re.compile('^[a-zA-Z0-9]{8,}$')
-
-        if(patternUsername.match(username) and patternEmail.match(email) and patternPassword.match(password) ):
-            print("Validation OK!")
+        if (patternUsername.match(username) and
+            patternEmail.match(email) and
+            patternPassword.match(password) and
+            (role.lower() == 'admin' or role.lower() == 'user' or role.lower() == 'member')):
+            print('Validation correct.')
             return func(*args, **kwargs)
 
         else:
-            print('Validation Failed!')
-            return jsonify({"Message":"Validation Failed!"}),403 #return response
+            # return jsonify({"Message" : "Validation Failed!"}),403 # return response
+            print('Validaton failed.')
+            return render_template('login.html', params=Param.RegisteringWithErrorParams()), 401
 
-    return validate 
+    return validate
 
 # Validate Number
 def validateNumber(num):
@@ -116,3 +179,20 @@ def validateUpdate(func):
             return jsonify({"Message":"Validation Failed!"}),403 #return response
 
     return validate 
+
+def validatePassword(func):
+    @functools.wraps(func)
+    def validatepw(*args, **kwargs):
+        password = request.form['passwordf']
+
+        patternPassword = re.compile('^[a-zA-Z0-9]{8,}$')
+
+        if (patternPassword.match(password)):
+            print('Validation correct.')
+            return func(*args, **kwargs)
+
+        else:
+            print('Validaton failed.')
+            return render_template('login.html', params=Param.ForgotWithErrorParams()), 401
+
+    return validatepw

@@ -1,5 +1,10 @@
-from model.DatabasePool import DatabasePool
-from config.settings import Settings
+from config.Settings import Settings
+#from model.DatabasePool import DatabasePool
+if Settings.dbUsed == 'maria':
+    from model.DatabasePool import DatabasePool
+else:
+    from model.DatabasePoolMySQL import DatabasePool
+
 import datetime
 import jwt
 import bcrypt
@@ -15,7 +20,7 @@ class User:
             cursor = dbConn.cursor(dictionary=True)
 
             print(f"Connected to {db_Info}");
-            sql="select * from user where email=%s "
+            sql="select * from users where email=%s "
 
             print(email)
             cursor.execute(sql,(email,)) 
@@ -43,7 +48,8 @@ class User:
 
         finally: 
             dbConn.close()
-#            print("release connection")
+            print("release connection")
+
 
     @classmethod
     def getUser(cls,userid): 
@@ -53,7 +59,7 @@ class User:
             cursor = dbConn.cursor(dictionary=True)
 
             print(f"Connected to {db_Info}")
-            sql="select * from user where userid=%s"
+            sql="select * from users where userid=%s"
 
             cursor.execute(sql,(userid,)) 
             users = cursor.fetchone()
@@ -71,7 +77,7 @@ class User:
             cursor = dbConn.cursor(dictionary=True)
 
             print(f"Connected to {db_Info}");
-            sql="select * from user "
+            sql="select * from users; "
 
             cursor.execute(sql) 
             users = cursor.fetchall()
@@ -81,8 +87,9 @@ class User:
             dbConn.close()
             print("release connection")
 
+
     @classmethod
-    def insertUser(cls,username, email, password):
+    def insertUser(cls,username, email, role, password):
         try:
             dbConn=DatabasePool.getConnection()
             cursor = dbConn.cursor(dictionary=True)
@@ -90,9 +97,13 @@ class User:
 #            password=userJson["password"].encode() #convert string to bytes
             hashed = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
 
-            sql="insert into user(username,email,password) Values(%s,%s,%s)"
-            users = cursor.execute(sql,(username, email, hashed))
+            default_role = 'member' # purposely swapped for role
 
+            sql = "INSERT INTO users (username, email, role, password) VALUES (%s, %s, %s, %s);"
+            users = cursor.execute(sql, (username,
+                                         email,
+                                         default_role,
+                                         hashed))
             dbConn.commit()
 
             rows=cursor.rowcount
@@ -100,6 +111,7 @@ class User:
 
         finally:
             dbConn.close()
+            print('release connection')
 
 
     @classmethod
@@ -108,7 +120,7 @@ class User:
         try:
             dbConn=DatabasePool.getConnection()
             cursor = dbConn.cursor(dictionary=True)
-            sql = "update User set "
+            sql = "update Users set "
             sql_field = ''
             item  = []
             for k, v in user.items():
@@ -128,13 +140,54 @@ class User:
         finally:            
             dbConn.close()
 
+    # @classmethod
+    # def updateUser(cls, username, email, password):
+    #     try:
+    #         print('updateUser ', username, email, password)
+    #         dbConn = DatabasePool.getConnection()
+    #         cursor = dbConn.cursor(dictionary=True)
+
+    #         # Hash a password for the first time, with a randomly generated salt
+    #         passwordb = password.encode() # convert string to bytes
+    #         hashed = bcrypt.hashpw(passwordb, bcrypt.gensalt())
+
+    #         sql = "UPDATE users SET password=%s WHERE username=%s AND email=%s;"
+    #         users = cursor.execute(sql, (hashed,
+    #                                      username,
+    #                                      email))
+    #         dbConn.commit()
+
+    #         rows = cursor.rowcount
+    #         return rows
+    #     finally:
+    #         dbConn.close()
+    #         print('release connection')
+
+    # @classmethod
+    # def updateUser(cls, userid, role):
+    #     try:
+    #         print('updateUser ', userid, role)
+    #         dbConn = DatabasePool.getConnection()
+    #         cursor = dbConn.cursor(dictionary=True)
+
+    #         sql = "UPDATE users SET role=%s WHERE userid=%s;"
+    #         users = cursor.execute(sql, (userid,
+    #                                      role))
+    #         dbConn.commit()
+
+    #         rows = cursor.rowcount
+    #         return rows
+    #     finally:
+    #         dbConn.close()
+    #         print('release connection')
+
     @classmethod
     def deleteUser(cls,userid):
         try:
             dbConn=DatabasePool.getConnection()
             cursor = dbConn.cursor(dictionary=True)
 
-            sql="delete from user where userid=%s"
+            sql="delete from users where userid=%s"
             users = cursor.execute(sql,(userid,))
             dbConn.commit()
             rows=cursor.rowcount
@@ -142,6 +195,8 @@ class User:
         
         finally:
             dbConn.close()
+            print('release connection')
+
 
     @classmethod
     def updatePassword(cls, email, password):
@@ -150,7 +205,7 @@ class User:
             db_Info = dbConn.connection_id
             cursor = dbConn.cursor(dictionary=True)
             
-            sql = "update user set user.password=%s where user.email=%s"
+            sql = "update users set user.password=%s where user.email=%s"
             cursor.execute(sql,(password, email))
             dbConn.commit()
 
@@ -165,3 +220,10 @@ class User:
     def gen_password(cls, length=8, charset="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"):
         return "".join([secrets.choice(charset) for _ in range(0, length)])
 #        return '12345678'
+
+## Daneil's...
+
+   
+
+
+
