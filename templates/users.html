@@ -1,37 +1,48 @@
 {% extends "parent.html" %}
 {% block title %}Users{% endblock %}
 {% block content %}
-	<h1>List of Users of this System</h1>
-		<table id = "userlist" class = "display" style="width:100%">
-		<thead>
-		<tr>
-			<th>User ID</th>
-			<th>User Name</th>
-			<th>Email</th>
-			<th>Role</th>
-			<th>Password</th>
-		</tr>
-		</thead>
-		<tbody>
-			{% for res in results %}
-			<tr>
-						<td class="card-text">{{res.userid}}</td>
-						<td class="card-text">{{res.username}}</td>
-						<td class="card-text">{{res.email}}</td>
-						<td class="card-text">{{res.role}}</td>
-						<td class="card-text">{{res.password}}</td>
-						<td><a href="http://myirisprediction.herokuapp.com/del_IrisRec?predictionid={{res.userid}}" class="btn btn-primary" class="View">Delete</a></td>
-			</tr>
-			{%endfor%}
-		</tbody>
-		<tfoot>
-			<tr>
-				<th>User ID</th>
-				<th>User Name</th>
-				<th>Email</th>
-				<th>Role</th>
-				<th>Password</th>
-			</tr>
-		</tfoot>	
-		</table>
+
+<script type="text/javascript" language="javascript">
+    $(document).ready(function(){
+        var dataTable = $('#userlist').DataTable();
+    });
+</script>
+
+        <div class="container">
+            <h3 align="center">List of User:</h3>
+            <br />
+            <div class="panel panel-default">
+                <div class="panel-heading">DataTable</div>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table id="userlist" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>User ID</th>
+                                    <th>User Name</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for row in results %}
+                                <tr>
+                                    <td data-pk="{{row.userid}}">{{row.userid}}</td>
+                                    <td data-name="name" class="name" data-type="text" data-pk="{{row.userid}}">{{row.username}}</td>
+                                    <td data-name="email" class="email" data-type="text" data-pk="{{row.userid}}">{{row.email}}</td>
+                                    <td data-name="phone" class="phone" data-type="text" data-pk="{{row.userid}}">{{row.role}}</td>
+                                    <td><a href="http://localhost:5000/changeRoleUser/{{row.userid}}" class="btn btn-primary" >Update</a></td>
+                                    <td><a href="http://localhost:5000/deleteUser/{{row.userid}}" class="btn btn-primary" >Delete</a></td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br />
+        <br />
 {% endblock %}

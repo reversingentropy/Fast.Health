@@ -114,72 +114,71 @@ class User:
             print('release connection')
 
 
+    # @classmethod
+    # def updateUser(cls, userid, user):
+
+    #     try:
+    #         dbConn=DatabasePool.getConnection()
+    #         cursor = dbConn.cursor(dictionary=True)
+    #         sql = "update Users set "
+    #         sql_field = ''
+    #         item  = []
+    #         for k, v in user.items():
+    #             sql_field += k + ' = %s, ' 
+    #             if k == 'password':
+    #                 v = bcrypt.hashpw(v.encode(), bcrypt.gensalt())
+    #             item.append(v)
+    #         sql_field = sql_field.rstrip(', ')
+    #         sql = sql + sql_field + ' where userid = %s'
+    #         item.append(userid)
+    #         users = cursor.execute(sql,item)
+
+    #         dbConn.commit()
+    #         rows=cursor.rowcount
+    #         return rows
+
+    #     finally:            
+    #         dbConn.close()
+
     @classmethod
-    def updateUser(cls, userid, user):
-
+    def updateUser(cls, username, email, password):
         try:
-            dbConn=DatabasePool.getConnection()
+            print('updateUser ', username, email, password)
+            dbConn = DatabasePool.getConnection()
             cursor = dbConn.cursor(dictionary=True)
-            sql = "update Users set "
-            sql_field = ''
-            item  = []
-            for k, v in user.items():
-                sql_field += k + ' = %s, ' 
-                if k == 'password':
-                    v = bcrypt.hashpw(v.encode(), bcrypt.gensalt())
-                item.append(v)
-            sql_field = sql_field.rstrip(', ')
-            sql = sql + sql_field + ' where userid = %s'
-            item.append(userid)
-            users = cursor.execute(sql,item)
 
+            # Hash a password for the first time, with a randomly generated salt
+            passwordb = password.encode() # convert string to bytes
+            hashed = bcrypt.hashpw(passwordb, bcrypt.gensalt())
+
+            sql = "UPDATE users SET password=%s WHERE username=%s AND email=%s;"
+            users = cursor.execute(sql, (hashed,
+                                         username,
+                                         email))
             dbConn.commit()
-            rows=cursor.rowcount
+
+            rows = cursor.rowcount
             return rows
-
-        finally:            
+        finally:
             dbConn.close()
+            print('release connection')
 
-    # @classmethod
-    # def updateUser(cls, username, email, password):
-    #     try:
-    #         print('updateUser ', username, email, password)
-    #         dbConn = DatabasePool.getConnection()
-    #         cursor = dbConn.cursor(dictionary=True)
+    @classmethod
+    def updateUser(cls, userid, role):
+        try:
+            print('updateUser ', userid, role)
+            dbConn = DatabasePool.getConnection()
+            cursor = dbConn.cursor(dictionary=True)
 
-    #         # Hash a password for the first time, with a randomly generated salt
-    #         passwordb = password.encode() # convert string to bytes
-    #         hashed = bcrypt.hashpw(passwordb, bcrypt.gensalt())
+            sql = "UPDATE users SET role=%s WHERE userid=%s;"
+            users = cursor.execute(sql, (role, userid))
+            dbConn.commit()
 
-    #         sql = "UPDATE users SET password=%s WHERE username=%s AND email=%s;"
-    #         users = cursor.execute(sql, (hashed,
-    #                                      username,
-    #                                      email))
-    #         dbConn.commit()
-
-    #         rows = cursor.rowcount
-    #         return rows
-    #     finally:
-    #         dbConn.close()
-    #         print('release connection')
-
-    # @classmethod
-    # def updateUser(cls, userid, role):
-    #     try:
-    #         print('updateUser ', userid, role)
-    #         dbConn = DatabasePool.getConnection()
-    #         cursor = dbConn.cursor(dictionary=True)
-
-    #         sql = "UPDATE users SET role=%s WHERE userid=%s;"
-    #         users = cursor.execute(sql, (userid,
-    #                                      role))
-    #         dbConn.commit()
-
-    #         rows = cursor.rowcount
-    #         return rows
-    #     finally:
-    #         dbConn.close()
-    #         print('release connection')
+            rows = cursor.rowcount
+            return rows
+        finally:
+            dbConn.close()
+            print('release connection')
 
     @classmethod
     def deleteUser(cls,userid):

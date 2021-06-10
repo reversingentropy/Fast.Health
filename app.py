@@ -229,43 +229,48 @@ def updateUser():
     else:   # password != password1
         return render_template('login.html', params=Param.ForgotWithErrorParams()), 500
 
-@app.route('/changeRoleUser/<int:userid>', methods=['POST'])
+@app.route('/changeRoleUser/<int:userid>', methods=['GET', 'POST'])
 # @require_login
 # @require_admin
 def changeroleUser(userid):
     try:        
+        print('Update User role!', userid)
         output = User.updateUser(userid, 'user')
         jsonOutput = {'Rows Affected' : output}
-
+        print('Output:', output)
         if output > 0:
-            return render_template('', params=Param.SetAllFalseParams()), 201
+            results = User.getAllUsers()            
+            return render_template('users.html', results=results, params=Param.SetAllFalseParams()), 201
                                     
         else:
-            return render_template('', params=Param.ForgotWithErrorParams()), 500
+            return render_template('index.html', params=Param.ForgotWithErrorParams()), 500
 
     except Exception as err:
         print(err)
-        return render_template('', params=Param.ForgotWithErrorParams()), 500
+        return render_template('index.html', params=Param.ForgotWithErrorParams()), 500
 
-@app.route('/deleteUser/<int:userid>', methods=['POST'])
+@app.route('/deleteUser/<int:userid>', methods=['GET', 'POST'])
 # @require_login
 # @require_admin
 def deleteUser(userid):
     # whatever the case, return to the page with the data table
     try:
+        print('Delete user:', userid)
         output = User.deleteUser(userid)
-        if len(output['jwt']) > 0:
+#        if len(output['jwt']) > 0:
+        if output > 0:
             info = H1Query.initPredInfo()
-            resp = make_response(render_template('', params=Param.LoggingWithErrorParams()),200)
-            resp.set_cookie('jwt', output["jwt"]) #writes instructions in the header for browser to save a cookie to browser for the jwt 
+            res = User.getAllUsers()
+            resp = make_response(render_template('users.html', results=res, params=Param.LoggingWithErrorParams()),200)
+#            resp.set_cookie('jwt', output["jwt"]) #writes instructions in the header for browser to save a cookie to browser for the jwt 
             return resp
 
         else:
-            return render_template('', params=Param.LoggingWithErrorParams()), 401
+            return render_template('index.html', params=Param.LoggingWithErrorParams()), 401
 
     except Exception as err:
         print(err)
-        return render_template('', params=Param.LoggingWithErrorParams()), 401
+        return render_template('index.html', params=Param.LoggingWithErrorParams()), 401
 
 #
 # Patient
