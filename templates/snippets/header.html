@@ -1,9 +1,9 @@
 <div class="card">
-	<img class="card-img" src="{{ url_for('static', filename='images/Heart Disease Symptoms.jpg') }}" alt="Heart Disease" width="1000" height="150px"/>
+	<img class="card-img" src="{{ url_for('static', filename='img/Heart Disease Symptoms.jpg') }}" alt="Heart Disease" width="100%" height="150px"/>
 	<div class="card-img-overlay text-white d-flex justify-content-center align-items-end">
-		<p><h1>Fast <b>Health</b> Systems</h1></p>
+		<p><h1>Fast.<b>Health</b></h1></p>
 	</div>		
-</div> 
+</div>
 
 
     <nav class="navbar navbar-expand-md navbar-light bg-light">
@@ -12,7 +12,7 @@
 				<li class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Patient</a>
                     <div class="dropdown-menu">
-                        <a href="{{ url_for('.patient') }}" class="dropdown-item">List All</a>
+                        <a href="{{ '/patientx' }}" class="dropdown-item">List All</a>
                         <a href="#" class="dropdown-item">New Patient</a>
                         <a href="#" class="dropdown-item">Update</a>
                         <a href="#"class="dropdown-item">Delete</a>
@@ -21,7 +21,7 @@
 				<li class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Testing</a>
                     <div class="dropdown-menu">
-                        <a href="{{ url_for('.testing') }}" class="dropdown-item">Myocardial Inf.</a>
+                        <a href="{{ '/testingx' }}" class="dropdown-item">Myocardial Inf.</a>
                         <a href="#" class="dropdown-item">Parkinsons</a>
                     </div>
                 </li>
@@ -34,23 +34,24 @@
                     </div>
                 </li>
                 <li class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Users</a>
+                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Users&nbsp;&nbsp;</a>
                     <div class="dropdown-menu">
-                        <a href="{{ url_for('.userlist') }}" class="dropdown-item">Update Role</a>
-                        <a href="#" class="dropdown-item">Delete</a>
+                        <a href="{{ '/user' }}" class="dropdown-item">List All</a>
+                        <a href="{{ '/changeRoleUser' }}" class="dropdown-item">Update Role</a>
+                        <a href="{{ '/deleteUser' }}" class="dropdown-item">Delete</a>
                     </div>
                 </li>
                 <li class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">About</a>
+                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">About&nbsp;&nbsp;</a>
                     <div class="dropdown-menu">
                         <a href="#" class="dropdown-item">Tests</a>
-                        <a href="{{ url_for('.about') }}" class="dropdown-item">Contributors</a>
+                        <a href="{{ '/aboutx' }}" class="dropdown-item">Contributors</a>
                     </div>
                 </li>
             </ul>
             <ul class="nav navbar-nav ml-auto">
 				<li class="nav-item">
-					<a href="{{ url_for('.logout') }}" class="nav-link">Logout</a>
+					<a href="/logout" class="nav-link">Logout</a>
 					<div class="dropdown-menu dropdown-menu-right"></div>
 				</li>
 			</ul>
