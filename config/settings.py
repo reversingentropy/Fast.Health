@@ -2,20 +2,19 @@ import os
 
 class Settings:
 
-    secretKey="a12nc)238OmPq#cxOlm*a" 
+    secretKey="a12nc)238OmPq#cxOlm*a" # your own secret key
 
-    # Pickle File
-    pFile = './config/svm.pkl'
     modelFile = "data/model.pkl" # machine learning model
-    dbUsed = 'local'
 
-    # Dev
-    if dbUsed == 'local':
+    dbUsed = 'maria'
+
+	# for those not using mariadb put anything else in dbUsed
+    if dbUsed == 'maria':
         #Staging on local machine
         host='localhost'
-        database='fasthealth'
-        user='root'
-        password='sum381Tk!'
+        database=''
+        user=''
+        password=''
     else:
         #Staging on heroku
         host=os.environ['HOST']
