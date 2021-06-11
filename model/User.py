@@ -1,5 +1,11 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Mon May  3 20:35:00 2021
+
+@author: Lenovo
+"""
+# from model.DatabasePool import DatabasePool
 from config.Settings import Settings
-#from model.DatabasePool import DatabasePool
 if Settings.dbUsed == 'maria':
     from model.DatabasePool import DatabasePool
 else:
@@ -8,94 +14,34 @@ else:
 import datetime
 import jwt
 import bcrypt
-import secrets
-
 
 class User:
-    @classmethod
-    def loginUser(cls,email, password): 
-        try: 
-            dbConn=DatabasePool.getConnection()
-            db_Info = dbConn.connection_id
-            cursor = dbConn.cursor(dictionary=True)
-
-            print(f"Connected to {db_Info}");
-            sql="select * from users where email=%s "
-
-            print(email)
-            cursor.execute(sql,(email,)) 
-            user = cursor.fetchone()            
-            username = ''
-            print(user)
-            if user == None:
-                print('Empty listing')
-                return {'jwt':'', 'username': username}
-#            elif bcrypt.checkpw(password.encode(), user['password']):
-            else:
-#                print(user)
-                hashed = user['password'].encode('utf8')
-                password = password.encode('utf8')
-                if bcrypt.checkpw(password, hashed):
-                    print('password ok!')
-                    userid = user['userid']
-                    username = user['username']
-                    payload = {"userid":user['userid'], "exp": datetime.datetime.utcnow() + datetime.timedelta(seconds=7200)}
-                    jwtToken=jwt.encode(payload,Settings.secretKey,algorithm="HS256")
-                    return {"jwt":jwtToken, 'userid': userid, 'username': username}
-                else:
-                    print('Wrong password!')
-                    return {'jwt': '', 'userid': 0, 'username': username}
-
-        finally: 
-            dbConn.close()
-            print("release connection")
-
 
     @classmethod
-    def getUser(cls,userid): 
-        try: 
-            dbConn=DatabasePool.getConnection()
+    def getAllUsers(cls):
+        try:
+            dbConn = DatabasePool.getConnection()
             db_Info = dbConn.connection_id
+            print(f'Connected to {db_Info}')
+            
             cursor = dbConn.cursor(dictionary=True)
-
-            print(f"Connected to {db_Info}")
-            sql="select * from users where userid=%s"
-
-            cursor.execute(sql,(userid,)) 
-            users = cursor.fetchone()
-            return users
-
-        finally: 
-            dbConn.close()
-            print("release connection")
-
-    @classmethod
-    def getAllUsers(cls): 
-        try: 
-            dbConn=DatabasePool.getConnection()
-            db_Info = dbConn.connection_id
-            cursor = dbConn.cursor(dictionary=True)
-
-            print(f"Connected to {db_Info}");
-            sql="select * from users; "
-
-            cursor.execute(sql) 
+            sql = "SELECT * FROM users;"
+            cursor.execute(sql)
             users = cursor.fetchall()
             return users
-
-        finally: 
+        finally:
             dbConn.close()
-            print("release connection")
-
-
+            print('release connection')
+    
     @classmethod
-    def insertUser(cls,username, email, role, password):
+    def insertUser(cls, username, email, role, password):
         try:
-            dbConn=DatabasePool.getConnection()
+            dbConn = DatabasePool.getConnection()
             cursor = dbConn.cursor(dictionary=True)
 
-#            password=userJson["password"].encode() #convert string to bytes
-            hashed = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
+            # Hash a password for the first time, with a randomly generated salt
+            passwordb = password.encode() # convert string to bytes
+            hashed = bcrypt.hashpw(passwordb, bcrypt.gensalt())
 
             default_role = 'member' # purposely swapped for role
 
@@ -106,39 +52,11 @@ class User:
                                          hashed))
             dbConn.commit()
 
-            rows=cursor.rowcount
+            rows = cursor.rowcount
             return rows
-
         finally:
             dbConn.close()
             print('release connection')
-
-
-    # @classmethod
-    # def updateUser(cls, userid, user):
-
-    #     try:
-    #         dbConn=DatabasePool.getConnection()
-    #         cursor = dbConn.cursor(dictionary=True)
-    #         sql = "update Users set "
-    #         sql_field = ''
-    #         item  = []
-    #         for k, v in user.items():
-    #             sql_field += k + ' = %s, ' 
-    #             if k == 'password':
-    #                 v = bcrypt.hashpw(v.encode(), bcrypt.gensalt())
-    #             item.append(v)
-    #         sql_field = sql_field.rstrip(', ')
-    #         sql = sql + sql_field + ' where userid = %s'
-    #         item.append(userid)
-    #         users = cursor.execute(sql,item)
-
-    #         dbConn.commit()
-    #         rows=cursor.rowcount
-    #         return rows
-
-    #     finally:            
-    #         dbConn.close()
 
     @classmethod
     def updateUser(cls, username, email, password):
@@ -171,7 +89,8 @@ class User:
             cursor = dbConn.cursor(dictionary=True)
 
             sql = "UPDATE users SET role=%s WHERE userid=%s;"
-            users = cursor.execute(sql, (role, userid))
+            users = cursor.execute(sql, (userid,
+                                         role))
             dbConn.commit()
 
             rows = cursor.rowcount
@@ -181,48 +100,54 @@ class User:
             print('release connection')
 
     @classmethod
-    def deleteUser(cls,userid):
+    def deleteUser(cls, userid):
         try:
-            dbConn=DatabasePool.getConnection()
+            dbConn = DatabasePool.getConnection()
             cursor = dbConn.cursor(dictionary=True)
 
-            sql="delete from users where userid=%s"
-            users = cursor.execute(sql,(userid,))
+            sql = "DELETE FROM user WHERE userid=%s"
+            users = cursor.execute(sql, (userid,))
             dbConn.commit()
-            rows=cursor.rowcount
+
+            rows = cursor.rowcount
             return rows
-        
         finally:
             dbConn.close()
             print('release connection')
 
-
     @classmethod
-    def updatePassword(cls, email, password):
-        try:        
-            dbConn=DatabasePool.getConnection()
+    def loginUser(cls, email, password):
+        try:
+            dbConn = DatabasePool.getConnection()
             db_Info = dbConn.connection_id
-            cursor = dbConn.cursor(dictionary=True)
-            
-            sql = "update users set user.password=%s where user.email=%s"
-            cursor.execute(sql,(password, email))
-            dbConn.commit()
+            print(f'Connected to {db_Info}')
 
-            rows=cursor.rowcount
-            #return count
-            return rows
+            cursor = dbConn.cursor(dictionary=True)
+            sql = "SELECT * FROM users WHERE email=%s;"
+            cursor.execute(sql, (email,))
+            user = cursor.fetchone() # at most 1 record since email is supposed to be unique
+
+            if user==None:
+                return {'jwt' : ''} # No match
+            else:
+                # put password test over here
+                storedpasswordb = user['password'].encode()
+                plaintextb = password.encode()
+
+                if (bcrypt.checkpw(plaintextb, storedpasswordb)):
+                    payload = {'userid' : user['userid'],
+                                'role' : user['role'],
+                                'exp' : datetime.datetime.utcnow() +
+                                        datetime.timedelta(seconds=7200)}
+                    jwtToken = jwt.encode(payload, Settings.secretKey, algorithm="HS256")
+                    # for Python 3, jwt.encode results in a byte string
+                    # which is not accepted by flask.jsonify.
+                    # Here the whole jwtToken is decoded to a string and posted in
+                    # the bearer field of postman 
+                    # jwtToken = jwtToken.decode('utf-8')
+                    return {'jwt' : jwtToken}
+                else:
+                    return {'jwt' : ''} # No match
 
         finally:
             dbConn.close()
-
-    @classmethod
-    def gen_password(cls, length=8, charset="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"):
-        return "".join([secrets.choice(charset) for _ in range(0, length)])
-#        return '12345678'
-
-## Daneil's...
-
-   
-
-
-

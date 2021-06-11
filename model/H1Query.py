@@ -13,63 +13,85 @@ else:
 from datetime import datetime
 
 class H1Query:
-    
-    @classmethod
-    def initPredInfo(cls):
-        info = {}
-        info['userid'] = -1
-        info['sepalLength'] = 0.000
-        info['sepalWidth'] = 0.000
-        info['petalLength'] = 0.000
-        info['petalWidth'] = 0.000
-        info['prediction'] = 'Unknown'
-        info['InsertionDate'] = datetime.now()
 
-        return info
+    # @classmethod
+    # def initPredInfo(cls):
+    #     info = {}
+    #     info['userid'] = -1
+    #     info['sepalLength'] = 0.000
+    #     info['sepalWidth'] = 0.000
+    #     info['petalLength'] = 0.000
+    #     info['petalWidth'] = 0.000
+    #     info['prediction'] = 'Unknown'
+    #     info['InsertionDate'] = datetime.now()
 
-    @classmethod
-    def loadPredInfo(cls, uid, spl, spw, ptl, ptw, prd):
-        info = {}
-        info['userid'] = uid
-        info['sepalLength'] = spl
-        info['sepalWidth'] = spw
-        info['petalLength'] = ptl
-        info['petalWidth'] = ptw
-        info['prediction'] = prd
-        info['InsertionDate'] = datetime.now()
-
-        return info
+    #     return info
 
     @classmethod
-    def get(cls, predictionId):
+    def initH1Query(cls):
+        h1q = {}
+        h1q['patientid'] = 0
+        h1q['result'] = 0.0
+        h1q['age'] = 0
+        h1q['sex'] = 0
+        h1q['cp'] = 0
+        h1q['trestbps'] = 0
+        h1q['chol'] = 0
+        h1q['fbs'] = False
+        h1q['restecg'] = 0
+        h1q['thalach'] = 0
+        h1q['exang'] = False
+        h1q['oldpeak'] = 0.0
+        h1q['slope'] = 0
+        h1q['ca'] = 0
+        h1q['thal'] = 0
+
+        return h1q
+
+    @classmethod
+    def getAllH1Queries(cls, patientid=-1):
         try:
             dbConn = DatabasePool.getConnection()
             db_Info = dbConn.connection_id
             print(f'Connected to {db_Info}')
             
             cursor = dbConn.cursor(dictionary=True)
-            sql = "SELECT * FROM h1queries WHERE predictionId=%s;"
-            cursor.execute(sql,(predictionId,))
-            predInfo = cursor.fetchone()
-            return predInfo
+            if patientid==-1:
+                sql = "SELECT * FROM h1queries;"
+                cursor.execute(sql)
+            else:
+                sql = "SELECT * FROM h1queries WHERE userid=%s;"
+                cursor.execute(sql,(patientid,))
+            h1queries = cursor.fetchone()
+            return h1queries
         finally:
             dbConn.close()
             print('release connection')
 
     @classmethod
-    def insert(cls, info):
+    def insertH1Query(cls, info):
         try:
             dbConn = DatabasePool.getConnection()
             cursor = dbConn.cursor(dictionary=True)
 
-            sql = "INSERT INTO irisprediction (userid,sepalLength,sepalWidth,petalLength,petalWidth,prediction) \
-                VALUES (%s,%s,%s,%s,%s,%s);"
-            users = cursor.execute(sql, (info['userid'],
-                                         info['sepalLength'],
-                                         info['sepalWidth'],
-                                         info['petalLength'],
-                                         info['petalWidth'],
-                                         info['prediction']))
+            sql = "INSERT INTO h1queries (patientid,result,age,sex,cp,trestbps,chol,fbs, \
+                restecg,thalach,exang,oldpeak,slope,ca,thal) \
+                VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);"
+            users = cursor.execute(sql, (info['patientid'],
+                                         info['result'],
+                                         info['age'],
+                                         info['sex'],
+                                         info['cp'],
+                                         info['trestbps'],
+                                         info['chol'],
+                                         info['fbs'],
+                                         info['restecg'],
+                                         info['thalach'],
+                                         info['exang'],
+                                         info['oldpeak'],
+                                         info['slope'],
+                                         info['ca'],
+                                         info['thal']))
             dbConn.commit()
 
             # rows = cursor.rowcount
@@ -80,13 +102,30 @@ class H1Query:
             print('release connection')
 
     @classmethod
-    def delete(cls, userid):
+    def updateH1Query(cls, queryid, patientid):
+        try:
+            print('updateH1Query ', queryid, patientid)
+            dbConn = DatabasePool.getConnection()
+            cursor = dbConn.cursor(dictionary=True)
+
+            sql = "UPDATE h1queries SET patientid=%s WHERE queryid=%s;"
+            users = cursor.execute(sql, (patientid,))
+            dbConn.commit()
+
+            rows = cursor.rowcount
+            return rows
+        finally:
+            dbConn.close()
+            print('release connection')
+
+    @classmethod
+    def deleteH1Query(cls, queryid):
         try:
             dbConn = DatabasePool.getConnection()
             cursor = dbConn.cursor(dictionary=True)
 
-            sql = "DELETE FROM irisprediction WHERE predictionid=%s;"
-            users = cursor.execute(sql, (userid,))
+            sql = "DELETE FROM h1queries WHERE queryid=%s;"
+            users = cursor.execute(sql, (queryid,))
             dbConn.commit()
 
             rows = cursor.rowcount

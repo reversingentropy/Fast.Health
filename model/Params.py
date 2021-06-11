@@ -14,6 +14,8 @@ class Param:
     param['displayMesg'] = False
     param['displayMesgr'] = False
     param['displayMesgf'] = False
+    param['changeButton'] = False
+    param['deleteButton'] = False
 
     @classmethod
     def SetAllFalseParams(cls):
@@ -83,5 +85,23 @@ class Param:
         cls.param['displayMesg'] = False
         cls.param['displayMesgr'] = False
         cls.param['displayMesgf'] = True
+        return cls.param
+
+    @classmethod
+    def UserTableNoButtons(cls):
+        cls.param['changeButton'] = False
+        cls.param['deleteButton'] = False
+        return cls.param
+
+    @classmethod
+    def UserTableChangeButton(cls):
+        cls.param['changeButton'] = True
+        cls.param['deleteButton'] = False
+        return cls.param
+
+    @classmethod
+    def UserTableDeleteButton(cls):
+        cls.param['changeButton'] = False
+        cls.param['deleteButton'] = True
         return cls.param
 
