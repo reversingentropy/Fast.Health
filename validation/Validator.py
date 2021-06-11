@@ -1,5 +1,5 @@
 import functools
-from flask import Flask, jsonify, request, g, render_template, redirect
+from flask import Flask, jsonify, request, g, render_template
 from config.Settings import Settings
 from model.Params import Param
 
