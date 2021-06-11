@@ -105,3 +105,20 @@ class Param:
         cls.param['deleteButton'] = True
         return cls.param
 
+    @classmethod
+    def PatientsTableNoButton(cls):
+        cls.param['changeButton'] = False
+        cls.param['deleteButton'] = False
+        return cls.param
+
+    @classmethod
+    def PatientsTableUpdateButton(cls):
+        cls.param['changeButton'] = True
+        cls.param['deleteButton'] = False
+        return cls.param
+
+    @classmethod
+    def PatientsTableDeleteButton(cls):
+        cls.param['changeButton'] = False
+        cls.param['deleteButton'] = True
+        return cls.param

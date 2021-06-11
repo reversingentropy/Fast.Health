@@ -33,11 +33,6 @@ def testing():
     print('testing page')
     return render_template('testing.html')
 	
-@other_blueprint.route('/patientx')
-def patientx():
-    print('patient page')
-    return render_template('patients.html')	
-
 @other_blueprint.route('/shortcut', methods=['GET','POST'])
 def shortcut():
     return render_template('index.html'),200
