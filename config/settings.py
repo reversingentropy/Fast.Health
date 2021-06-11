@@ -8,7 +8,6 @@ class Settings:
 
     dbUsed = 'maria'
 
-	# for those not using mariadb put anything else in dbUsed
     if dbUsed == 'maria':
         #Staging on local machine
         host='localhost'
