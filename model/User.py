@@ -6,7 +6,7 @@ Created on Mon May  3 20:35:00 2021
 """
 # from model.DatabasePool import DatabasePool
 from config.Settings import Settings
-if Settings.dbUsed == 'maria':
+if Settings.dbUsed == 'pooling':
     from model.DatabasePool import DatabasePool
 else:
     from model.DatabasePoolMySQL import DatabasePool
@@ -89,8 +89,8 @@ class User:
             cursor = dbConn.cursor(dictionary=True)
 
             sql = "UPDATE users SET role=%s WHERE userid=%s;"
-            users = cursor.execute(sql, (userid,
-                                         role))
+            users = cursor.execute(sql, (role,
+                                         userid))
             dbConn.commit()
 
             rows = cursor.rowcount
@@ -105,7 +105,7 @@ class User:
             dbConn = DatabasePool.getConnection()
             cursor = dbConn.cursor(dictionary=True)
 
-            sql = "DELETE FROM user WHERE userid=%s"
+            sql = "DELETE FROM users WHERE userid=%s"
             users = cursor.execute(sql, (userid,))
             dbConn.commit()
 

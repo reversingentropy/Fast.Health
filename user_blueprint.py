@@ -60,8 +60,7 @@ def listallUsers(): # list all Users for select
 def gotoChangeRole(): # list all Users for select
     try:
         jsonUsers = User.getAllUsers()
-        params = Param.UserTableChangeButton()
-        return render_template('users.html', results=jsonUsers, params=params), 200
+        return render_template('users.html', results=jsonUsers, params=Param.UserTableChangeButton()), 200
     
     except Exception as err:
         print(err)  # for debugging
@@ -72,8 +71,7 @@ def gotoChangeRole(): # list all Users for select
 def gotoDeleteUser(): # list all Users for select
     try:
         jsonUsers = User.getAllUsers()
-        params = Param.UserTableDeleteButton()
-        return render_template('users.html', results=jsonUsers, params=params), 200
+        return render_template('users.html', results=jsonUsers, params=Param.UserTableDeleteButton()), 200
     
     except Exception as err:
         print(err)  # for debugging
@@ -143,40 +141,42 @@ def updateUser():
     else:   # password != password1
         return render_template('login.html', params=Param.ForgotWithErrorParams()), 500
 
-@user_blueprint.route('/changeRoleUser/<int:userid>', methods=['POST'])
+@user_blueprint.route('/changeRoleUser/<int:userid>', methods=['GET'])
 # @require_login
 # @require_admin
 def changeroleUser(userid):
+    jsonUsers = None
     try:        
         output = User.updateUser(userid, 'user')
-        jsonOutput = {'Rows Affected' : output}
-
+        jsonUsers = User.getAllUsers()
+ 
         if output > 0:
-            return render_template('', params=Param.SetAllFalseParams()), 201
+            return render_template('users.html', results=jsonUsers, params=Param.UserTableChangeButton()), 201
                                     
         else:
-            return render_template('', params=Param.ForgotWithErrorParams()), 500
+            return render_template('users.html', results=jsonUsers, params=Param.UserTableChangeButton()), 500
 
     except Exception as err:
         print(err)
-        return render_template('', params=Param.ForgotWithErrorParams()), 500
+        return render_template('users.html', results=jsonUsers, params=Param.UserTableChangeButton()), 500
 
-@user_blueprint.route('/deleteUser/<int:userid>', methods=['POST'])
+@user_blueprint.route('/deleteUser/<int:userid>', methods=['GET'])
 # @require_login
 # @require_admin
 def deleteUser(userid):
     # whatever the case, return to the page with the data table
+    jsonUsers = None
     try:
         output = User.deleteUser(userid)
-        if len(output['jwt']) > 0:
-            # info = H1Query.initPredInfo()
-            resp = make_response(render_template('', params=Param.LoggingWithErrorParams()),200)
-            resp.set_cookie('jwt', output["jwt"]) #writes instructions in the header for browser to save a cookie to browser for the jwt 
-            return resp
+        print('output: ', output)
+        jsonUsers = User.getAllUsers()
+
+        if output > 0:
+            return render_template('users.html', results=jsonUsers, params=Param.UserTableDeleteButton()), 201
 
         else:
-            return render_template('', params=Param.LoggingWithErrorParams()), 401
+            return render_template('users.html', results=jsonUsers, params=Param.UserTableDeleteButton()), 401
 
     except Exception as err:
         print(err)
-        return render_template('', params=Param.LoggingWithErrorParams()), 401
+        return render_template('users.html', results=jsonUsers, params=Param.UserTableDeleteButton()), 401

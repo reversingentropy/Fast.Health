@@ -5,7 +5,7 @@ Created on Mon May  3 20:35:00 2021
 @author: Lenovo
 """
 from config.Settings import *
-if Settings.dbUsed == 'maria':
+if Settings.dbUsed == 'pooling':
     from model.DatabasePool import DatabasePool
 else:
     from model.DatabasePoolMySQL import DatabasePool
