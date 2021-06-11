@@ -1,45 +1,158 @@
 {% extends "parent.html" %}
 {% block title %}Welcome{% endblock %}
 {% block content %}
-<div style="width:75%; padding-left:25%">
-  <form method="POST" action="/predict" >
-    <h3 class="modal-title" style="text-align:center; color:yellow" >Enter Iris Parameters</h3>
-    <input type="text" name="sepallengthinput" id="sepallengthinput" class="form-control" placeholder="Sepal Length" />
-    <input type="text" name="sepalwidthinput" id="sepalwidthinput" class="form-control" placeholder="Sepal Width" />
-    <input type="text" name="petallengthinput" id="petallengthinput" class="form-control" placeholder="Petal Length" />
-    <input type="text" name="petalwidthinput" id="petalwidthinput" class="form-control" placeholder="Petal Width" />
-    <br />
-    <button type="submit" name="predictbtn" id="predictbtn" class="btn btn-primary button" value="Submit" >Predict</button>
-    <br />
-  </form>
+<style>
+.grid-container {
+    display: grid;
+    grid-template-columns: 0.1fr 0.45fr 0.45fr;
+    grid-gap: 10px;
+    border: 3px solid rgb(0, 0, 0);
+    
+}
+label {
+    padding-right:10px;
+}
+
+
+</style>
+
+<form  method="POST"  action="/predict" >
+
+  <div class="grid-container">
+
+    <div class="grid-child black" ></div>
+    <div class="grid-child purple" >
+    <p></p>
+      <div class="form-inline">
+        <label for="name" >PatientID </label>
+        <input type="text" class = "form-control" value="" name="pId" id="pId" style="width : 150px">
+      </div>
+      <p></p>
+
+      <div class="form-inline">
+      <label for="age">Age</label>
+        <input type="text" class = "form-control" style="width : 150px" name="age" id="age" required>
+
+      </div>
+      <p></p>
+
+       <div class="form-inline">
+        <label for="gender">Gender </label>
+        <select name="gender" id="gender" class="form-control"  style="width: 100px">
+          <option value="0">Female</option>
+          <option value="1">Male</option>
+      </select>
+       </div>
+
+        <p></p>
+      <div class="form-inline">
+        
+        <label for="cp">Chest Pain </label>
+          <select name="cp" id="cp" class="form-control"  style="width: 150px">
+          <option value="0">Typical angina</option>
+          <option value="1">Atypical angina</option>
+          <option value="2">Non-anginal pain</option>
+          <option value="3">Asymptomatic</option>    </select>
+      
+    </div>
+
+
+      <p></p>
+  
+        <div class="form-inline">
+        <label for="rbp">Resting Blood Pressure</label>
+        <input type="text" class="form-control"  value="" name="rbp" id="rbp" required>
+          </div>
+        <p></p>
+
+        <div class="form-inline">
+          <label for="chol">Cholesterol</label>
+            <input type="text" class="form-control"  name="chol" id="chol" required>
+          </div>
+          <p></p>
+
+      
+        <div class="checkbox-inline">			 
+        <label>
+          <input id='fbs' name = 'fbs' type="checkbox" value="1" > 
+          Fasting blood sugar > 120 mg/dl
+        </label>
+        </div> 
+        <p></p>
+        <button type="submit" class="btn btn-danger" >Predict</button>
+        <label> {{prediction}}</label>
+    </div>
+  
+
+
+
+    <div class="grid-child green">
+    <p></p>
+  
+    <div class="form-inline">
+      <label for="restecg">Resting ECG measurement</label>
+      <select name="restecg" id="restecg" class="form-control" style="width:245px">
+        <option value="0">Normal</option>
+        <option value="1">ST-T wave abnormality</option>
+        <option value="2">Left ventricular hypertrophy</option>
+        </select>
+    </div>  
+    <p></p>
+
+    <div class="form-inline">
+      <label for="name">Maximum heart rate</label>
+        <input type="text" class="form-control" name="thalach" id="thalach" required>
+    </div>
+    <p></p>
+
+    <div class="form-inline">
+        <input type="checkbox" id='exang' name="exang" value="1"> Exercise induced angina
+      </label>
+    </div> 
+    <p></p>
+
+  
+    <div class="form-inline">
+      <label for="name">ST depression</label>
+        <input type="text" class="form-control" name="oldpeak" id="oldpeak" required>
+    </div>
+    <p></p>
+
+    <div class="form-inline">
+      <label for="slope">Slope of peak exercise ST </label>
+      <select name = "slope" id="slope" class="form-control" aria-label=".form-select-lg example">
+            <option value="0">Upsloping</option>
+            <option value="1">Flat</option>
+            <option value="2">Downsloping</option>    </select>
+    </div>  
+    <p></p>
+  
+    <div class="form-inline">
+          <label for="ca">Number of major vessels </label>
+      <select name = "ca" id="ca" class="form-control" aria-label=".form-select-lg example">
+            <option value="0">0</option>
+            <option value=1>1</option>
+            <option value=2>2</option>
+            <option value=3>3</option>    </select>
+    </div>  
+    <p></p>
+  
+    <div class="form-inline">
+          <label for="thal">Thalassemia </label>
+      <select name = "thal" id="thal" class="form-control" aria-label=".form-select-lg example">
+            <option selected value=3>Normal</option>
+            <option value=6>Fixed defect</option>
+            <option value=7>Reversable defect</option>  </select>
+    </div> 
+  
+  
+    </div>  
+</form>
+
 </div>
-<hr>
-<div>
-  <table style="width:100%">
-    <tr style="background-color:white">
-      <th width="14%"><b>Sepal length</b></td>
-      <th width="14%"><b>Sepal width</b></td>
-      <th width="14%"><b>Petal length</b></td>
-      <th width="14%"><b>Petal width</b></td>
-      <th width="16%"><b>Prediction</b></td>
-      <th width="18%"><b>TimeStamp</b></td>
-      <th width="10%"></td>
-    </tr>
-    <tr style="background-color:lightgray">
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>
-        <form method="POST" action="/deletePredInfo" >
-          <button type="submit" name="deletebtn" id="deletebtn" class="btn btn-danger"
-            value="Submit" >Remove</button> 
-          <input type="hidden" id="predictionId" name="predictionId" value=0.00>
-        </form>
-      </td>
-    </tr>
-  </table>
+
+  
+
+    
 </div>
 {% endblock %}
