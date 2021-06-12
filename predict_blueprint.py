@@ -33,7 +33,8 @@ def predict():
     data = [age,gender,cp,trestbps,chol,fbs,restecg,thalach,exang,oldpeak,slope,ca,thal]
     y_pred= new_model.predict([data])
     prediction = ["No Heart Disease","Heart Disease"][(y_pred[0])]
-    info = {"patientid" : patient, "result":prediction,"age" : age, "sex" : gender, "cp":cp,"trestbps" : trestbps,"chol":chol,"fbs":fbs,"restecg":restecg,"thalach":thalach,"exang":exang,"oldpeak":oldpeak,"slope":slope,"ca":ca,"thal":thal}
+    num = (y_pred[0]).item()
+    info = {"patientid" : patient, "result": num,"age" : age, "sex" : gender, "cp":cp,"trestbps" : trestbps,"chol":chol,"fbs":fbs,"restecg":restecg,"thalach":thalach,"exang":exang,"oldpeak":oldpeak,"slope":slope,"ca":ca,"thal":thal}
     H1Query.insertH1Query(info)
     prediction = "Prediction : " + prediction +"."
     return render_template('index.html',prediction=prediction)
