@@ -11,9 +11,9 @@ class Settings:
     if dbUsed == 'pooling':
         #Staging on local machine
         host='localhost'
-        database='test'
-        user='root'
-        password='Niwhsa1994'
+        database='cdac'
+        user=''
+        password=''
 
     else:
         #Staging on heroku
