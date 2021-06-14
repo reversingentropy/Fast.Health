@@ -7,9 +7,9 @@ Created on Mon May  3 20:35:00 2021
 # from model.DatabasePool import DatabasePool
 from config.Settings import Settings
 if Settings.dbUsed == 'pooling':
-    from model.DatabasePoolMySQL import DatabasePool
-else:
     from model.DatabasePool import DatabasePool
+else:
+    from model.DatabasePoolMySQL import DatabasePool
 
 import datetime
 import jwt
@@ -104,19 +104,20 @@ class User:
 
     @classmethod
     def deleteUser(cls, userid):
-        try:
-            dbConn = DatabasePool.getConnection()
-            cursor = dbConn.cursor(dictionary=True)
+        if User.uuid != userid:
+            try:
+                dbConn = DatabasePool.getConnection()
+                cursor = dbConn.cursor(dictionary=True)
 
-            sql = "DELETE FROM users WHERE userid=%s"
-            users = cursor.execute(sql, (userid,))
-            dbConn.commit()
+                sql = "DELETE FROM users WHERE userid=%s"
+                users = cursor.execute(sql, (userid,))
+                dbConn.commit()
 
-            rows = cursor.rowcount
-            return rows
-        finally:
-            dbConn.close()
-            print('release connection')
+                rows = cursor.rowcount
+                return rows
+            finally:
+                dbConn.close()
+                print('release connection')
 
     @classmethod
     def loginUser(cls, email, password):
