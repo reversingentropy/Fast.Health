@@ -25,7 +25,7 @@ def listallH1Queries():  # list all Patients for select
  #       jsonPatients = {'H1Queries' : jsonPatients}
 
 
-        info = jsonify(jsonPatients)
+#        info = jsonify(jsonPatients)
         return render_template('queries.html', info=jsonPatients), 200
     
     except Exception as err:
