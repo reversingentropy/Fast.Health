@@ -7,15 +7,18 @@ Created on Mon May  3 20:35:00 2021
 # from model.DatabasePool import DatabasePool
 from config.Settings import Settings
 if Settings.dbUsed == 'pooling':
-    from model.DatabasePoolMySQL import DatabasePool
-else:
     from model.DatabasePool import DatabasePool
+else:
+    from model.DatabasePoolMySQL import DatabasePool
 
 import datetime
 import jwt
 import bcrypt
 
 class User:
+
+    uuid = -1
+    umodel = None
 
     @classmethod
     def getAllUsers(cls):
@@ -128,7 +131,7 @@ class User:
             user = cursor.fetchone() # at most 1 record since email is supposed to be unique
 
             if user==None:
-                return {'jwt' : ''} # No match
+                return {'jwt' : ''}, -1 # No match
             else:
                 # put password test over here
                 storedpasswordb = user['password'].encode()
@@ -145,9 +148,9 @@ class User:
                     # Here the whole jwtToken is decoded to a string and posted in
                     # the bearer field of postman 
                     # jwtToken = jwtToken.decode('utf-8')
-                    return {'jwt' : jwtToken}
+                    return {'jwt' : jwtToken}, user['userid']
                 else:
-                    return {'jwt' : ''} # No match
+                    return {'jwt' : ''}, -1 # No match
 
         finally:
             dbConn.close()
