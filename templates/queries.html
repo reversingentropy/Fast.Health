@@ -1,0 +1,79 @@
+{% extends "parent.html" %}
+{% block title %}Queries{% endblock %}
+{% block head %}
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+{% endblock %}
+{% block content %}
+<script type="text/javascript" language="javascript">
+    $(document).ready(function(){
+        var dataTable = $('#userlist').DataTable();
+    });
+</script>
+	<br />
+	<h3 style="text-align:center; color:White">List of Queries:</h3>
+	<br />
+	<div class="panel panel-default">
+		<!-- <div class="panel-heading">DataTable</div> -->
+		<div class="panel-body">
+			<div class="table-responsive">
+				<table id="userlist" class="table table-bordered table-striped">
+					<thead style="background-color:yellowgreen">
+						<tr>
+							<th>Query ID</th>
+							<th>Patient ID</th>
+							<th>Date</th>
+							<th>Result </th>
+							<th>Age</th>
+							<th>Sex</th>
+							<th>Chest Pain</th>
+							<th>Resting Blood Pressure</th>
+                            <th>Cholesterol</th>
+                            <th>Fasting Blood Sugar</th>
+                            <th>Resting ECG</th>
+                            <th>Max Heart Rate</th>
+                            <th>Exercise Induced Angina</th>
+							<th>ST depression</th>
+							<th>Slope of peak exercise ST</th>
+							<th>Number of major vessels</th>
+							<th>Thalassemia</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for row in info %}
+						<tr>
+							<td data-pk="{{row.userid}}">{{row.queryid}}</td>
+							<td data-name="patientid " class="patientid " data-type="text" data-pk="{{row.userid}}">{{row.patientid}}</td>
+							<td data-name="datequery" class="datequery " data-type="text" data-pk="{{row.userid}}">{{row.datequery}}</td>
+							<td data-name="result" class="result" data-type="text" data-pk="{{row.userid}}">{{row.result}}</td>
+							<td data-name="age" class="age" data-type="text" data-pk="{{row.userid}}">{{row.age}}</td>
+							<td data-name="sex" class="sex" data-type="text" data-pk="{{row.userid}}">{{row.sex}}</td>
+							<td data-name="cp" class="cp" data-type="text" data-pk="{{row.userid}}">{{row.cp}}</td>
+							<td data-name="trestbps" class="trestbps" data-type="text" data-pk="{{row.userid}}">{{row.trestbps}}</td>
+							<td data-name="chol" class="chol" data-type="text" data-pk="{{row.userid}}">{{row.chol}}</td>
+							<td data-name="fbs" class="fbs" data-type="text" data-pk="{{row.userid}}">{{row.fbs}}</td>
+							<td data-name="restecg" class="restecg" data-type="text" data-pk="{{row.userid}}">{{row.restecg}}</td>
+							<td data-name="thalach" class="thalach" data-type="text" data-pk="{{row.userid}}">{{row.thalach}}</td>
+							<td data-name="exang" class="exang" data-type="text" data-pk="{{row.userid}}">{{row.exang}}</td>
+							<td data-name="oldpeak" class="oldpeak" data-type="text" data-pk="{{row.userid}}">{{row.oldpeak}}</td>
+							<td data-name="slope" class="slope" data-type="text" data-pk="{{row.userid}}">{{row.slope}}</td>
+							<td data-name="ca" class="ca" data-type="text" data-pk="{{row.userid}}">{{row.ca}}</td>
+							<td data-name="thal" class="thal" data-type="text" data-pk="{{row.userid}}">{{row.thal}}</td>
+							<td>
+							{% if (params['changeButton']) %}
+								<a href="/changeH1Query/{{row.queryid}}" class="btn btn-warning" >Update</a>
+							{% endif %}
+							{% if (params['deleteButton']) %}
+								<a href="/deleteH1Query/{{row.queryid}}" class="btn btn-danger" >Delete</a>
+							{% endif %}
+							</td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+<br />
+<br />
+
+{% endblock %}

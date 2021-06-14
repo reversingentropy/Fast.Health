@@ -2,12 +2,12 @@
 {% block title %}Welcome{% endblock %}
 {% block content %}
 <style>
-.grid-container {
+.container {
     display: grid;
     grid-template-columns: auto;
     grid-gap: 10px;
     border: 3px solid rgb(253, 253, 253);
-    background-color:blanchedalmond;
+    background-color:rgb(235, 214, 187);
     padding-top: 20px;
     padding-left: 20px;
 }
@@ -22,148 +22,129 @@ input[type="checkbox"]{
 </style>
 <form method="POST" action="/predict">
 
-  <div class="grid-container">
-    <div class="row align-items-1">
-      <div class="col">
-        <label for="name">PatientID </label>
-      </div>
-      
-      <div class="col">
-        <input type="text" class="form-control" value="" name="pId" id="pId" required="" style="width:auto">
-      </div>
-
-      <div class="col">
-      <label for="restecg">Resting ECG measurement</label>
-     </div>
-
-      <div class="col">
-        <select name="restecg" id="restecg" class="form-control" style="height: auto; width: auto;">
-          <option value="0">Normal</option>
-          <option value="1">ST-T wave abnormality</option>
-          <option value="2">Left ventricular hypertrophy</option>
-          </select>
-      </div>
-    </div>
-    <div class="row align-items-2">
-      <div class="col">
-        <label for="age">Age</label>
-      </div>
-      <div class="col">
-        <input type="text" class="form-control" style="width:auto" name="age" id="age" required="">
-      </div>
-      <div class="col">
-        <label for="thalach">Maximum heart rate</label>
-    </div>
-    <div class="col">
-      <input type="text" class="form-control" name="thalach" id="thalach" required="" style="height: auto; width: auto;">      </div>
-
-    </div>
-    <div class="row align-items-3">
-      <div class="col">
-        <label for="age">Gender</label>
-      </div>
-      <div class="col">
-        <select name="gender" id="gender" class="form-control" style="height: auto; width: auto;">
-          <option value="0">Female</option>
-          <option value="1">Male</option>
-      </select>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-6">
+          <div class="form-group">
+            <label for="pId">PatientID </label>
+            <input type="text" class="form-control" value="" name="pId" id="pId" required="">
           </div>
-      <div class="col">
-        <label for="thalach">Exercise induced angina</label>
-    </div>
-    <div class="col">
-      <input type="checkbox" id="exang" name="exang" value="1"> 
-    </div>
-     </div>
-  <div class="row align-items-4">
-      <div class="col">
-        <label for="cp">Chest Pain</label>
-      </div>
-      <div class="col">
-        <select name="cp" id="cp" class="form-control" style="height: auto; width: auto;">
-          <option value="0">Typical angina</option>
-          <option value="1">Atypical angina</option>
-          <option value="2">Non-anginal pain</option>
-          <option value="3">Asymptomatic</option>            </select>
-        </div>
-      <div class="col">
-        <label for="oldpeak">ST depression</label>
-      </div>
-    <div class="col">
-      <input type="text" class="form-control" name="oldpeak" id="oldpeak" required="" style="height: auto; width: auto;">
-    </div>
 
-    </div>
-    <div class="row align-items-5">
-      <div class="col">
-        <label for="rbp">Resting Blood Pressure</label> 
-      </div>
-      <div class="col">
-        <input type="text" class="form-control" value="" name="rbp" id="rbp" required="" style="height: auto; width: auto;">
-      </div>
-      <div class="col">
-        <label for="slope">Slope of peak exercise ST </label>
-      </div>
-    <div class="col">
-      <select name="slope" id="slope" class="form-control" aria-label=".form-select-lg example" style="height: auto; width: auto;">
-        <option value="0">Upsloping</option>
-        <option value="1">Flat</option>
-        <option value="2">Downsloping</option>    </select>    
-      </div>
-  </div>
-    <div class="row align-items-6">
-      <div class="col">
-        <label for="chol">Cholesterol</label>
-      </div>
-      <div class="col">
-        <input type="text" class="form-control" name="chol" id="chol" required="" style="height: auto; width: auto;">
-      </div>
-      <div class="col">
-        <label for="ca">Number of major vessels </label>
-      </div>
-    <div class="col">
-      <select name="ca" id="ca" class="form-control" aria-label=".form-select-lg example" style="height: auto; width: auto;">
-        <option value="0">0</option>
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>    </select></div>
-    </div>
-    <div class="row align-items-7">
-      <div class="col">
-        <label>
-          Fasting blood sugar &gt; 120 mg/dl
-        </label>      </div>
-      <div class="col">
-        <input id="fbs" name="fbs" type="checkbox" value="1"> 
-      </div>
-      <div class="col">
-        <label for="thal">Thalassemia </label>
-      </div>
-    <div class="col">
-      <select name="thal" id="thal" class="form-control" aria-label=".form-select-lg example" style="height: auto; width: auto;">
-        <option selected="" value="1">Normal</option>
-        <option value="2">Fixed defect</option>
-        <option value="3">Reversable defect</option>  </select>
-       </div>
+          <div class="form-group">
+            <label for="age">Age</label>
+            <input type="text" class="form-control" name="age" id="age" required="">
+          </div>
 
+          <div class="form-group">
+            <label for="gender">Gender</label>
+            <select name="gender" id="gender" class="form-control">
+              <option value="0">Female</option>
+              <option value="1">Male</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="cp">Chest Pain</label>
+            <select name="cp" id="cp" class="form-control">
+              <option value="0">Typical angina</option>
+              <option value="1">Atypical angina</option>
+              <option value="2">Non-anginal pain</option>
+              <option value="3">Asymptomatic</option>            
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="rbp">Resting Blood Pressure</label> 
+            <input type="text" class="form-control" value="" name="rbp" id="rbp" required>
+          </div>
+
+          <div class="form-group">
+            <label for="chol">Cholesterol</label>
+            <input type="text" class="form-control" name="chol" id="chol" required>
+          </div>
+
+          <div class="form-group">
+            <label for='fbs'> Fasting blood sugar > 120 mg/dl</label> 
+            <input id="fbs" name="fbs" type="checkbox" value="1"> 
+          </div> 
+
+          
+      </div>
+
+          <div class="col-sm-6">
+
+            <div class="form-group">
+              <label for="restecg">Resting ECG</label>
+              <select name="restecg" id="restecg" class="form-control" >
+                <option value="0">Normal</option>
+                <option value="1">ST-T wave abnormality</option>
+                <option value="2">Left ventricular hypertrophy</option>
+              </select>
+            </div>
+
+          <div class="form-group"> 
+              <label for="thalach">Maximum heart rate</label>
+              <input type="text" class="form-control" name="thalach" id="thalach" required>
+            </div>
+
+      
+
+
+        <div class="form-group">
+            <label for="oldpeak">ST depression</label>
+            <input type="text" class="form-control" name="oldpeak" id="oldpeak" required>
+          </div>
+
+        <div class="form-group">
+            <label for="slope">Slope of peak exercise ST </label>
+            <select name="slope" id="slope" class="form-control" aria-label=".form-select-lg example" >
+              <option value="0">Upsloping</option>
+              <option value="1">Flat</option>
+              <option value="2">Downsloping</option>    
+            </select>    
+          </div>
+
+        <div class="form-group">
+            <label for="ca">Number of major vessels </label>
+            <select name="ca" id="ca" class="form-control" aria-label=".form-select-lg example">
+              <option value="0">0</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>    
+            </select>
+          </div>
+
+        <div class="form-group">
+            <label for="thal">Thalassemia </label>
+            <select name="thal" id="thal" class="form-control" aria-label=".form-select-lg example" >
+              <option selected="" value="1">Normal</option>
+              <option value="2">Fixed defect</option>
+              <option value="3">Reversable defect</option>  
+            </select>
+          </div>
+
+
+
+          <div class="form-group">
+            <label for="exang">Exercise induced angina</label>
+            <input type="checkbox" id="exang" name="exang" value="1"> 
+          </div>
+      </div>
     </div>
-    <div class="row align-items-8">
+    <div class="row">
+      <div class="col-5"></div>
       <div class="col">
-        <button type="submit" class="btn btn-danger" style="width:200px">Predict</button>
+        <button type="submit" class="btn btn-danger" style="width:100px">Predict</button>
       </div>
       <div class="col">
         <b><label style="background-color:cadetblue; "> {{prediction}}</label></b>
-      </div></div>
-
+      </div>
+      <div class="col-1"></div>
     </div>
- 
-  
+  </div>
+
+
 </form>
 
-</div>
 
-  
-
-    
-</div>
 {% endblock %}
