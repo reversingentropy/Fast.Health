@@ -7,9 +7,9 @@ Created on Mon May  3 20:35:00 2021
 # from model.DatabasePool import DatabasePool
 from config.Settings import Settings
 if Settings.dbUsed == 'pooling':
-    from model.DatabasePool import DatabasePool
-else:
     from model.DatabasePoolMySQL import DatabasePool
+else:
+    from model.DatabasePool import DatabasePool
 
 import datetime
 import jwt

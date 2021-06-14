@@ -7,6 +7,11 @@ import pickle
 
 predict_blueprint = Blueprint('predict_blueprint', __name__, template_folder='templates')
 
+
+@predict_blueprint.route('/hd',methods=['GET'])
+def display():
+    return render_template('index.html')
+
 @predict_blueprint.route('/predict',methods=['POST'])
 def predict():
     new_model = pickle.load(open("data\model.pkl", 'rb'))
@@ -33,8 +38,8 @@ def predict():
     data = [age,gender,cp,trestbps,chol,fbs,restecg,thalach,exang,oldpeak,slope,ca,thal]
     y_pred= new_model.predict([data])
     prediction = ["No Heart Disease","Heart Disease"][(y_pred[0])]
-    num = (y_pred[0]).item()
-    info = {"patientid" : patient, "result": num,"age" : age, "sex" : gender, "cp":cp,"trestbps" : trestbps,"chol":chol,"fbs":fbs,"restecg":restecg,"thalach":thalach,"exang":exang,"oldpeak":oldpeak,"slope":slope,"ca":ca,"thal":thal}
+    num = int((y_pred[0]))
+    info = {"patientid" : patient, "result":num,"age" : age, "sex" : gender, "cp":cp,"trestbps" : trestbps,"chol":chol,"fbs":fbs,"restecg":restecg,"thalach":thalach,"exang":exang,"oldpeak":oldpeak,"slope":slope,"ca":ca,"thal":thal}
     H1Query.insertH1Query(info)
     prediction = "Prediction : " + prediction +"."
     return render_template('index.html',prediction=prediction)
