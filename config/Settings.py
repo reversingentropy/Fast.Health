@@ -13,7 +13,7 @@ class Settings:
         host = 'localhost'
         database = 'fasthealth'
         user = 'root'
-        password = 'gfJ$t7g3'
+        password = ''
 
     else:
         #Staging on heroku
