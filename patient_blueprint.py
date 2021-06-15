@@ -5,7 +5,7 @@ Created on Mon May  3 20:44:43 2021
 @author: Lenovo
 """
 from flask import jsonify
-from flask import render_template, request, make_response, abort
+from flask import render_template, request, make_response, abort, g
 from flask import Blueprint
 from model.Params import Param
 from model.Patient import Patient
@@ -24,9 +24,15 @@ patient_blueprint = Blueprint('patient_blueprint', __name__, template_folder='te
 # @require_admin
 def listallpatients():  # list all Patients for select
     try:
-        jsonPatients = Patient.getAllPatients()
-#        jsonPatients = {'Patients' : jsonPatients}
+        userid = Patient.getUserID(request)
+        # auth_token=request.cookies.get("jwt")
+        # payload = jwt.decode(auth_token, Settings.secretKey, algorithms=["HS256"])
+        # g.userid = payload['userid'] # update info in flask application context's g which lasts for one req/res cycle
+        userid = g.userid
 
+        jsonPatients = Patient.getAllPatients(userid)
+#        jsonPatients = {'Patients' : jsonPatients}
+        print(userid)
         params = Param.PatientsTableNoButton()
 
 #        info = jsonify(jsonPatients)
@@ -38,67 +44,102 @@ def listallpatients():  # list all Patients for select
 @patient_blueprint.route('/insert_patients')
 # @require_login
 def newPatient():
-    return render_template('insert_patients.html'), 200
+    userid = Patient.getUserID(request)
+    print(userid)
+    patient_dict= Patient.InitVal(userid)
+    return render_template('insupd_patients.html', message='', action='insert', patient_dict=patient_dict), 200
 
 
 @patient_blueprint.route('/patient', methods=['POST'])
 # @require_login
-def insertPatient():
-    patientname = request.form['patientname']
-    userid = request.form['userid']
+def insupdPatient():
+    userid = Patient.getUserID(request)
+    action = request.form['action']
 
-    try:        
-        output = Patient.insertPatient(patientname, userid)
-        jsonOutput = {'Rows Affected' : output}
-        return render_template('', params=Param.SetAllFalseParams()), 201
+    patient_dict = {'userid': userid,
+                    "name": request.form['name'], 
+                     "gender": request.form['gender'],
+                     "age": request.form['age'],
+                     "dob": request.form['dob'],
+                     "nricno": request.form['nricno'],
+                     "email": request.form['email'],
+                     "contactno": request.form['contactno'],
+                     "address": request.form['address'],
+                     "postcode": request.form['postcode']}
+    print(patient_dict)
+    try:  
+        if action == 'insert':  # Insert
+            output = Patient.insertPatient(patient_dict)
+            msgOutput = 'Rows Affected=' + str( output )
+            return render_template('insupd_patients.html', params=Param.SetAllFalseParams(), action='insert', message='Status: '+ msgOutput, patient_dict=Patient.InitVal(userid)), 201
+
+        else: # Update
+            patientid = int(request.form['patientid'])
+            print('PatID:', patientid)
+            output = Patient.updatePatient(patientid, patient_dict)
+            msgOutput = 'Rows Affected=' + str( output )
+            jsonPatients = Patient.getAllPatients(userid)
+            params = Param.PatientsTableUpdateButton()
+            return render_template('patients.html', results=jsonPatients, params=params), 200
 
     except Exception as err:
         print(err)
-        return render_template('', params=Param.RegisteringWithErrorParams()), 500
+        return render_template('insupd_patients.html', params=Param.RegisteringWithErrorParams(), action='insert', message=err, patient_dict=Patient.InitVal(userid)), 500
 
-@patient_blueprint.route('/changePatient/<int:patientid>', methods=['POST'])
+@patient_blueprint.route('/updatePatient/<int:patientid>', methods=['GET'])
 # @require_login
 # @require_admin
 def updatePatient(patientid):
     try:
-        output = Patient.updatePatient(patientid)
-        jsonOutput = {'Rows Affected' : output}
-
-        if output > 0:
-            return render_template('', params=Param.SetAllFalseParams()), 201
-                                    
+        print('Patiend ID:', patientid)
+        ## Display list of Patient particulars
+        patient_dict = Patient.getPatientInfo(patientid)
+        patient_dict['dob'] = patient_dict['dob'].strftime('%Y-%m-%d')
+        print(patient_dict)
+        if patient_dict:
+#        output = Patient.updatePatient(patientid)
+#        jsonOutput = {'Rows Affected' : output}
+            return render_template('insupd_patients.html', params=Param.SetAllFalseParams(), action='update', patient_dict=patient_dict, message=''), 201
+                                        
         else:
-            return render_template('', params=Param.ForgotWithErrorParams()), 500
+            # Error retrieve info
+            return render_template('patients.html', params=Param.ForgotWithErrorParams()), 500
 
     except Exception as err:
         print(err)
-        return render_template('', params=Param.ForgotWithErrorParams()), 500
+        return render_template('patients.html', params=Param.ForgotWithErrorParams()), 500
 
-@patient_blueprint.route('/deletePatient/<int:patientid>', methods=['POST'])
+@patient_blueprint.route('/deletePatient/<int:patientid>', methods=['GET'])
 # @require_login
 # @require_admin
 def deletePatient(patientid):
     # whatever the case, return to the page with the data table
     try:
+        userid = Patient.getUserID(request)
+        print(patientid)
         output = Patient.deletePatient(patientid)
-        if len(output['jwt']) > 0:
-            # info = H1Query.initPredInfo()
-            resp = make_response(render_template('', params=Param.LoggingWithErrorParams()),200)
-            resp.set_cookie('jwt', output["jwt"]) #writes instructions in the header for browser to save a cookie to browser for the jwt 
-            return resp
-
+        if output > 0:
+            ret = 200
         else:
-            return render_template('', params=Param.LoggingWithErrorParams()), 401
+            ret = 401
+        msgOutput = 'Rows affected:' + str(output)
+            # Display list of patients            
+        jsonPatients = Patient.getAllPatients(userid)
+        params = Param.PatientsTableDeleteButton()
+        resp = make_response(render_template('patients.html', params=params, results=jsonPatients, status=msgOutput),ret)
+#        resp.set_cookie('jwt', output["jwt"]) #writes instructions in the header for browser to save a cookie to browser for the jwt 
+        return resp
 
     except Exception as err:
         print(err)
-        return render_template('', params=Param.LoggingWithErrorParams()), 401
+        return render_template('patients.html', params=Param.LoggingWithErrorParams()), 401
 
 
 @patient_blueprint.route('/update_patients', methods=['GET'])
 def gotoupdtepatient(): # list all Users for select
     try:
-        jsonPatients = Patient.getAllPatients()
+        userid = Patient.getUserID(request)
+        jsonPatients = Patient.getAllPatients(userid =userid)
         params = Param.PatientsTableUpdateButton()
         return render_template('patients.html', results=jsonPatients, params=params), 200
     
@@ -109,7 +150,8 @@ def gotoupdtepatient(): # list all Users for select
 @patient_blueprint.route('/delete_patients', methods=['GET'])
 def gotodeletepatient(): # list all Users for select
     try:
-        jsonPatients = Patient.getAllPatients()
+        userid = Patient.getUserID(request)
+        jsonPatients = Patient.getAllPatients(userid)
         params = Param.PatientsTableDeleteButton()
         return render_template('patients.html', results=jsonPatients, params=params), 200
     
