@@ -6,21 +6,14 @@ class Settings:
 
     modelFile = "data/model.pkl" # machine learning model
 
-    dbUsed = 'local'
+    dbUsed = 'pooling'
 
-    if dbUsed == 'local':
+    if dbUsed == 'pooling':
         #Staging on local machine
-<<<<<<< Updated upstream
         host=''
         database=''
         user=''
         password=''
-=======
-        host='localhost'
-        database='fasthealth'
-        user='root'
-        password='sum381Tk!'
->>>>>>> Stashed changes
 
     else:
         #Staging on heroku
