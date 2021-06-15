@@ -1,0 +1,36 @@
+{% extends "parent.html" %}
+{% block title %}Patients{% endblock %}
+{% block head %}
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+{% endblock %}
+{% block content %}
+<script type="text/javascript" language="javascript">
+    $(document).ready(function(){
+        var dataTable = $('#userlist').DataTable();
+    });
+</script>
+	<br />
+	<h3 style="text-align:center; color:White">New Patient</h3>
+	<br />
+	<div class="panel panel-default">
+		<!-- <div class="panel-heading">DataTable</div> -->
+		<div class="panel-body">
+			<form action="">
+				Name<input name="Text1" style="width: 152px" type="text" />&nbsp; Age
+				<input name="Text3" type="text" /> DOB <input name="Text4" type="text" /><br />
+				<label id="Label2">NRIC No:</label><input name="Text2" type="text" /> Gender<select name="Select1" style="width: 62px">
+				<option></option>
+				</select><br />
+				Contact No. <input name="Text5" style="width: 186px" type="text" /> Email:
+				<input name="Text6" type="text" /><br />
+				Address&nbsp;&nbsp;
+				<input name="Text7" style="width: 356px; height: 61px" type="text" /><br />
+				<input name="Submit1" type="submit" value="submit" /></form>
+			<form method="post">
+			
+		</div>
+	</div>
+<br />
+<br />
+
+{% endblock %}

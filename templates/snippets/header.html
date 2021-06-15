@@ -1,0 +1,59 @@
+<div class="card">
+	<img class="card-img" src="{{ url_for('static', filename='img/Heart Disease Symptoms.jpg') }}" alt="Heart Disease" width="100%" height="150px"/>
+	<div class="card-img-overlay text-white d-flex justify-content-center align-items-end">
+		<p><h1>Fast.<b>Health</b></h1></p>
+	</div>		
+</div>
+
+
+    <nav class="navbar navbar-expand-md navbar-light bg-light">
+        <div id="navbarCollapse" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+				<li class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Patient</a>
+                    <div class="dropdown-menu">
+                        <a href="{{ '/listallpatients' }}" class="dropdown-item">List All</a>
+                        <a href="{{ '/insert_patients' }}" class="dropdown-item">New Patient</a>
+                        <a href="{{ '/update_patients' }}" class="dropdown-item">Update</a>
+                        <a href="{{ '/delete_patients' }}"class="dropdown-item">Delete</a>
+                    </div>
+                </li>
+				<li class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Testing</a>
+                    <div class="dropdown-menu">
+                        <a href="{{ '/hd' }}" class="dropdown-item">Heart Disease</a>
+                        <a href="#" class="dropdown-item">Parkinsons</a>
+                    </div>
+                </li>
+				<li class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Queries</a>
+                    <div class="dropdown-menu">
+                        <a href="{{ '/h1query' }}" class="dropdown-item">List All</a>
+                        <a href="{{'/changeH1Query'}}" class="dropdown-item">Update</a>
+                        <a href="{{'/deleteH1Query'}}" class="dropdown-item">Delete</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Users&nbsp;&nbsp;</a>
+                    <div class="dropdown-menu">
+                        <a href="{{ '/user' }}" class="dropdown-item">List All</a>
+                        <a href="{{ '/changeRoleUser' }}" class="dropdown-item">Update Role</a>
+                        <a href="{{ '/deleteUser' }}" class="dropdown-item">Delete</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">About&nbsp;&nbsp;</a>
+                    <div class="dropdown-menu">
+                        <a href="#" class="dropdown-item">Tests</a>
+                        <a href="{{ '/aboutx' }}" class="dropdown-item">Contributors</a>
+                    </div>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav ml-auto">
+				<li class="nav-item">
+					<a href="/logout" class="nav-link">Logout</a>
+					<div class="dropdown-menu dropdown-menu-right"></div>
+				</li>
+			</ul>
+        </div>
+    </nav>

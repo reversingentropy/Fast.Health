@@ -1,0 +1,51 @@
+{% extends "parent.html" %}
+{% block title %}Users{% endblock %}
+{% block content %}
+
+<script type="text/javascript" language="javascript">
+    $(document).ready(function(){
+        var dataTable = $('#userlist').DataTable();
+    });
+</script>
+            <br />
+            <h3 style="text-align:center; color:White">List of Users:</h3>
+            <br />
+            <div class="panel panel-default">
+                <!-- <div class="panel-heading">DataTable</div> -->
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table id="userlist" class="table table-bordered table-striped">
+                            <thead style="background-color:yellowgreen">
+                                <tr>
+                                    <th>User ID</th>
+                                    <th>User Name</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for row in results %}
+                                <tr>
+                                    <td data-pk="{{row.userid}}">{{row.userid}}</td>
+                                    <td data-name="name" class="name" data-type="text" data-pk="{{row.userid}}">{{row.username}}</td>
+                                    <td data-name="email" class="email" data-type="text" data-pk="{{row.userid}}">{{row.email}}</td>
+                                    <td data-name="phone" class="phone" data-type="text" data-pk="{{row.userid}}">{{row.role}}</td>
+                                    <td>
+                                    {% if (params['changeButton']) %}
+                                        <a href="/changeRoleUser/{{row.userid}}" class="btn btn-warning" >Update</a>
+                                    {% endif %}
+                                    {% if (params['deleteButton']) %}
+                                        <a href="/deleteUser/{{row.userid}}" class="btn btn-danger" >Delete</a>
+                                    {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        <br />
+        <br />
+{% endblock %}
