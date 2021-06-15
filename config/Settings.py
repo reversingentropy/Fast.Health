@@ -10,10 +10,10 @@ class Settings:
 
     if dbUsed == 'pooling':
         #Staging on local machine
-        host=''
-        database=''
-        user=''
-        password=''
+        host = 'localhost'
+        database = 'fasthealth'
+        user = 'root'
+        password = 'gfJ$t7g3'
 
     else:
         #Staging on heroku

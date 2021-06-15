@@ -62,7 +62,7 @@ class H1Query:
             else:
                 sql = "SELECT * FROM h1queries WHERE userid=%s;"
                 cursor.execute(sql,(patientid,))
-            h1queries = cursor.fetchone()
+            h1queries = cursor.fetchall()
             return h1queries
         finally:
             dbConn.close()

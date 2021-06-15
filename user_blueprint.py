@@ -54,8 +54,6 @@ def listallUsers(): # list all Users for select
         print(err)  # for debugging
 
 @user_blueprint.route('/changeRoleUser', methods=['GET'])
-# @require_login
-# @require_admin
 def gotoChangeRole(): # list all Users for select
     try:
         jsonUsers = User.getAllUsers()

@@ -22,12 +22,18 @@ h1query_blueprint = Blueprint('h1query_blueprint', __name__, template_folder='te
 def listallH1Queries():  # list all Patients for select    
     try:
         jsonPatients = H1Query.getAllH1Queries()
- #       jsonPatients = {'H1Queries' : jsonPatients}
-
-
-#        info = jsonify(jsonPatients)
-        return render_template('queries.html', info=jsonPatients), 200
+        return render_template('queries.html', info=jsonPatients, params=Param.QueryTableNoButtons()), 200
     
+    except Exception as err:
+        print(err)  # for debugging
+
+
+@h1query_blueprint.route('/changeH1Query', methods=['GET'])
+def gotoUpdateH1Queries():
+    try:
+        jsonPatients = H1Query.getAllH1Queries()
+        return render_template('queries.html', info=jsonPatients, params=Param.QueryTableUpdateButton()), 200
+
     except Exception as err:
         print(err)  # for debugging
 
@@ -40,14 +46,26 @@ def updateH1Queries(queryid):
         jsonOutput = {'Rows Affected' : output}
 
         if output > 0:
-            return render_template('queries.html', params=Param.SetAllFalseParams()), 201
+            return render_template('queries.html', params=Param.QueryTableUpdateButton()), 201
                                     
         else:
-            return render_template('queries.html', params=Param.ForgotWithErrorParams()), 500
+            return render_template('queries.html', params=Param.QueryTableUpdateButton()), 500
 
     except Exception as err:
         print(err)
-        return render_template('queries.html', params=Param.ForgotWithErrorParams()), 500
+        return render_template('queries.html', params=Param.QueryTableUpdateButton()), 500
+
+
+@h1query_blueprint.route('/deleteH1Query', methods=['GET'])
+# @require_login
+# @require_admin
+def gotoDeleteH1Query():
+    try:
+        jsonPatients = H1Query.getAllH1Queries()
+        return render_template('queries.html', info=jsonPatients, params=Param.QueryTableDeleteButton()), 200
+
+    except Exception as err:
+        print(err)  # for debugging
 
 @h1query_blueprint.route('/deleteH1Query/<int:queryid>', methods=['POST'])
 # @require_login
@@ -58,13 +76,13 @@ def deleteH1Query(queryid):
         output = H1Query.deleteH1Query(queryid)
         if len(output['jwt']) > 0:
             # info = H1Query.initPredInfo()
-            resp = make_response(render_template('', params=Param.LoggingWithErrorParams()),200)
+            resp = make_response(render_template('', params=Param.QueryTableDeleteButton()),200)
             resp.set_cookie('jwt', output["jwt"]) #writes instructions in the header for browser to save a cookie to browser for the jwt 
             return resp
 
         else:
-            return render_template('queries.html', params=Param.LoggingWithErrorParams()), 401
+            return render_template('queries.html', params=Param.QueryTableDeleteButton()), 401
 
     except Exception as err:
         print(err)
-        return render_template('queries.html', params=Param.LoggingWithErrorParams()), 401
+        return render_template('queries.html', params=Param.QueryTableDeleteButton()), 401
