@@ -122,3 +122,21 @@ class Param:
         cls.param['changeButton'] = False
         cls.param['deleteButton'] = True
         return cls.param
+       
+    @classmethod
+    def QueryTableNoButtons(cls):
+        cls.param['changeButton'] = False
+        cls.param['deleteButton'] = False
+        return cls.param
+
+    @classmethod
+    def QueryTableUpdateButton(cls):
+        cls.param['changeButton'] = True
+        cls.param['deleteButton'] = False
+        return cls.param
+
+    @classmethod
+    def QueryTableDeleteButton(cls):
+        cls.param['changeButton'] = False
+        cls.param['deleteButton'] = True
+        return cls.param
