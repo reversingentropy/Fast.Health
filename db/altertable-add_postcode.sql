@@ -1,0 +1,3 @@
+ALTER TABLE `patients` 
+ADD COLUMN `postcode` VARCHAR(45) NOT NULL AFTER `dob`,
+CHANGE COLUMN `dob` `dob` DATETIME NOT NULL ;

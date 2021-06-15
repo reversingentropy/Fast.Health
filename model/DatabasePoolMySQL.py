@@ -31,4 +31,3 @@ class DatabasePool:
         dbConn = cls.connection_pool.get_connection()
     
         return dbConn
-
