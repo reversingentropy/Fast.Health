@@ -16,7 +16,7 @@
 		<!-- <div class="panel-heading">DataTable</div> -->
 		<div class="panel-body">
 			<div class="table-responsive">
-				<table id="userlist" class="table table-bordered table-striped">
+				<table id="userlist" class="table table-bordered table-striped table-sm">
 					<thead style="background-color:yellowgreen">
 						<tr>
 							<th>Patient ID</th>
@@ -28,6 +28,7 @@
 							<th>Contact No.</th>
 							<th>Email</th>
 							<th>Address</th>
+							<th>Postcode</th>
 							<th></th>
 						</tr>
 					</thead>
@@ -43,12 +44,13 @@
 							<td data-name="contactno" class="contactno" data-type="text" data-pk="{{row.userid}}">{{row.contactno}}</td>
 							<td data-name="email" class="email" data-type="text" data-pk="{{row.userid}}">{{row.email}}</td>
 							<td data-name="address" class="address" data-type="text" data-pk="{{row.userid}}">{{row.address}}</td>
+							<td data-name="postcode" class="" data-type="text" data-pk="{{row.userid}}">{{row.postcode}}</td>
 							<td>
 							{% if (params['changeButton']) %}
-								<a href="/changeRoleUser/{{row.userid}}" class="btn btn-warning" >Update</a>
+								<a href="/updatePatient/{{row.patientid}}" class="btn btn-warning" >Update</a>
 							{% endif %}
 							{% if (params['deleteButton']) %}
-								<a href="/deleteUser/{{row.userid}}" class="btn btn-danger" >Delete</a>
+								<a href="/deletePatient/{{row.patientid}}" class="btn btn-danger" >Delete</a>
 							{% endif %}
 							</td>
 						</tr>
