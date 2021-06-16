@@ -104,7 +104,7 @@ def verifyUser():
         if len(output['jwt']) > 0:
             # info = H1Query.initPredInfo()
             User.uuid = _uid
-            resp = make_response(render_template('index.html'),200)
+            resp = make_response(render_template('welcome.html'),200)
             resp.set_cookie('jwt', output["jwt"]) #writes instructions in the header for browser to save a cookie to browser for the jwt 
             return resp
 
