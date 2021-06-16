@@ -1,3 +1,12 @@
+{% extends "parent.html" %}
+{% block title %}Patients{% endblock %}
+{% block head %}
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+{% endblock %}
+{% block content %}
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,15 +14,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About Fast.Health</title>
-    <link rel="stylesheet" href="../static/ex2.css"
+    <link rel="stylesheet" href="../static/css/about.css"
 </head>
 <body>
-    <header class="bg-light  text-center">
+    <header class="bg-dark  text-center">
       <div class="container container--narrow">
-        <p><h1>About Fast.Health</h1></p>
+        <p><h2>About Fast.Health</h2></p>
       </div>
     </header>
-    <section>
+    <section class="bg-light">
       <div class="container">
         <h2 calss="text-center">The Story</h2>
         <div class="split">
@@ -28,7 +37,7 @@
 
     <section class="bg-dark">
         <div class="container">
-          <h2 calss="text-center">What is Our Goal </h2>
+          <h3 calss="text-center">What is Our Goal </h3>
           <div class="split">
               <div>
                   <p> 1.  To create a machine learning model to predict risk of heart disease based on biological parameters of that person.<br>
@@ -41,7 +50,7 @@
 
       <section class="bg-light">
         <div class="container">
-          <h2 calss="text-center">Where we got the data: </h2>
+          <h3 calss="text-center">Where we got the data: </h3>
           <div class="split">
               <div>
                   <p> Center for Machine Learning and Intelligent Systems, University of California, Irvine <br>
@@ -61,20 +70,20 @@
       <div class="container">
         <div class="split">
             <div>
-                <h2> How we predict: </h2>
+                <h3> How we predict: </h3>
                 <p>Data prediction and exploration:
                     First Look of data set.</p>
 
             </div>
             <div>
-                <img src="../static/eda.jpg" alt="" >
+                <img src="../static/images/eda.jpg" alt="" >
                
             </div>
         </div>
     </div>
     </section>
 
-    <section class="bg-primary">
+    <section class="bg-light">
         <div class="container">
           <div class="split">
               <div>
@@ -84,13 +93,13 @@
   
               </div>
               <div>
-                  <img src="../static/chknull.jpg" alt="" >
+                  <img src="../static/images/chknull.jpg" alt="" >
                  
               </div>
           </div>
       </div>
       </section>
-      <section class="bg-neutral">
+      <section class="bg-dark">
         <div class="container">
           <div class="split">
               <div>
@@ -100,18 +109,18 @@
   
               </div>
               <div>
-                  <img src="../static/missval.jpg" alt="" >
+                  <img src="../static/images/missval.jpg" alt="" >
                  
               </div>
           </div>
       </div>
       </section>
 
-      <section class="bg-primary">
+      <section class="bg-light">
         <div class="container">
           <div class="split">
               <div>
-                <h2>Model Accuracy</h2>
+                <h3>Model Accuracy</h3>
                   <!-- <h2>Checking for data types and size of the dataset  </h2> -->
                   <p> An ROC curve (receiver operating characteristic curve) is a graph showing the performance of a classification model at all classification thresholds.</p>
                   <p>Here we are having roc for 1.Random Forest <br> 2.Logistic Regresstion 
@@ -120,7 +129,7 @@
                   <p> Comaparing the performance of all classification models,we got the highest accuracy for the Randam Forest Algorithm. The accuracy is 95% </p>  
               </div>
               <div>
-                  <img src="../static/roc15june.jpg" alt="" >
+                  <img src="../static/images/roc15june.jpg" alt="" >
                  
               </div>
           </div>
@@ -129,7 +138,7 @@
 
       <section class="bg-dark">
         <div class="container">
-          <h2 calss="text-center">Algorithm used </h2>
+          <h3 calss="text-center">Algorithm used </h3>
           <div class="split">
               <div>
                   <p> Random Forest </p>
@@ -156,7 +165,7 @@
           </div>
         </div>
       </section>
-      <section class="bg-primary">
+      <section class="bg-dark">
         <div class="container">
           <h2 calss="text-center">Legal disclaimer </h2>
           <div class="split">
@@ -191,3 +200,4 @@
 
 </body>
 </html>
+{% endblock %}

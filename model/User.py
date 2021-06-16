@@ -10,7 +10,6 @@ if Settings.dbUsed == 'pooling':
     from model.DatabasePool import DatabasePool
 else:
     from model.DatabasePoolMySQL import DatabasePool
-
 import datetime
 import jwt
 import bcrypt
