@@ -27,8 +27,11 @@ h1query_blueprint = Blueprint(
 # @require_login
 # @require_admin
 def listallH1Queries():  # list all Patients for select
+
     try:
+        
         jsonPatients = H1Query.getAllH1Queries()
+        
         return render_template('queries.html', info=jsonPatients, params=Param.QueryTableNoButtons()), 200
 
     except Exception as err:
@@ -39,6 +42,7 @@ def listallH1Queries():  # list all Patients for select
 def gotoUpdateH1Queries():
     try:
         jsonPatients = H1Query.getAllH1Queries()
+        
         return render_template('queries.html', info=jsonPatients, params=Param.QueryTableUpdateButton()), 200
 
     except Exception as err:

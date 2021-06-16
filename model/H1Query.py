@@ -68,6 +68,8 @@ class H1Query:
             dbConn.close()
             print('release connection')
 
+
+
     @classmethod
     def insertH1Query(cls, info):
         try:
