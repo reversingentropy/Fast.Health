@@ -15,7 +15,6 @@ from user_blueprint import user_blueprint
 from patient_blueprint import patient_blueprint
 from h1query_blueprint import h1query_blueprint
 from other_blueprint import other_blueprint
-from predict_blueprint import predict_blueprint
 
 import os, pickle
 
@@ -23,14 +22,6 @@ app = Flask(__name__, template_folder='templates')
 # CORS(app) # to enable CORS middleware for all origins
 
 params = Param.SetAllFalseParams()
-
-model = None
-if os.path.isfile(Settings.modelFile):
-    print('Model file found. Loading model .....')
-    model = pickle.load(open(Settings.modelFile, 'rb'))
-    
-else:
-    print('Model file not found. Model not loaded.')
 
 @app.context_processor
 def inject_now():
@@ -40,7 +31,6 @@ app.register_blueprint(user_blueprint)
 app.register_blueprint(patient_blueprint)
 app.register_blueprint(h1query_blueprint)
 app.register_blueprint(other_blueprint)
-app.register_blueprint(predict_blueprint)
 
 if __name__ == '__main__':
     app.run(debug=True)

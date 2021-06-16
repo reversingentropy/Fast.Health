@@ -1,0 +1,32 @@
+{% extends "parent.html" %}
+{% block title %}Welcome{% endblock %}
+{% block content %}
+<style>
+.container {
+    display: grid;
+    grid-template-columns: auto;
+    grid-gap: 10px;
+    border: 3px solid rgb(253, 253, 253);
+    background-color:rgb(235, 214, 187);
+    padding-top: 20px;
+    padding-left: 20px;
+    
+}
+
+.col-sm-6{font-size: 30px;}
+</style>
+<body>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-6 mx-auto">
+            <label for="intro" >Welcome!</label>
+            <label for="intro" >Fast.Health is a diagnostic screening tool for healthcare professionals.</label>
+          </div>
+        </div>
+    </div>
+
+
+</body>
+
+{% endblock %}

@@ -1,23 +1,19 @@
 $(function() {
     var $predictForm = $("#predictForm");
+    
     if ($predictForm.length){
         $predictForm.validate({
     rules:{
-        pId : {
-            required: true,
-            number: true
-            
-        },
         age : {
             required: true,
             number: true,
-            range: [10, 120]
+            range: [18, 120]
 
         },
         rbp:{
             required: true,
             number: true,
-            range: [10, 400]
+            range: [50, 400]
 
         },       
         chol:{
@@ -29,7 +25,7 @@ $(function() {
         thalach :{
             required: true,
             number: true,
-            range: [30, 400]
+            range: [50, 400]
 
         },
         oldpeak : {
@@ -44,20 +40,15 @@ $(function() {
     
     },
     messages:{
-        pId:{
-            required: "Please enter patient Id",
-            number: "Please patient Id as a numerical value",
-
-        },
         age : {
             required: "Please enter your age",
             number: "Please enter numerical values.",
-            range: "Please enter a value between 10 and 120."
+            range: "Please enter a valid value between 18 and 120."
             },
         rbp : {
             required: "Please enter your resting blood pressure.",
             number: "Please enter numerical values.",
-            range: "Please enter a value between 10 and 400."
+            range: "Please enter a value between 50 and 400."
         },
         chol : {
             required: "Please enter your cholesterol level.",
@@ -67,13 +58,13 @@ $(function() {
         thalach : {
             required: "Please enter your max heart rate.",
             number: "Please enter numerical values.",
-            range: "Please enter a value between 30 and 400."
+            range: "Please enter a value between 50 and 400."
         },
         oldpeak : {
             required: "Please enter your max heart rate.",
             number: "Please enter numerical values.",
             min: "Please enter valid value.",
-            max: "Please enter a value below 20."
+            max: "Please enter a value between 0 and 20."
         }
     }
   });
