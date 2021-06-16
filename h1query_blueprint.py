@@ -80,19 +80,19 @@ def gotoDeleteH1Query():
         print(err)  # for debugging
 
 
-@h1query_blueprint.route('/deleteH1Query/<int:queryid>', methods=['POST'])
+@h1query_blueprint.route('/deleteH1Query/<int:queryid>', methods=['GET'])
 # @require_login
 # @require_admin
 def deleteH1Query(queryid):
     # whatever the case, return to the page with the data table
     try:
+        #print("deleteH1Query ", queryid)
         output = H1Query.deleteH1Query(queryid)
-        if len(output['jwt']) > 0:
-            # info = H1Query.initPredInfo()
+        if output > 0:
+            jsonH1Queries = H1Query.getAllH1Queries()
+            params = Param.QueryTableDeleteButton()
             resp = make_response(render_template(
-                '', params=Param.QueryTableDeleteButton()), 200)
-            # writes instructions in the header for browser to save a cookie to browser for the jwt
-            resp.set_cookie('jwt', output["jwt"])
+                'queries.html', params=params, info=jsonH1Queries), 200)
             return resp
 
         else:
