@@ -1,8 +1,193 @@
-{% extends "parent.html" %}
-{% block title %}About Us{% endblock %}
-{% block content %}
-    <h1>About Fast.Health</h1>
-    <p>
-		This is about us page.
-	</p>
-{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Fast.Health</title>
+    <link rel="stylesheet" href="../static/ex2.css"
+</head>
+<body>
+    <header class="bg-light  text-center">
+      <div class="container container--narrow">
+        <p><h1>About Fast.Health</h1></p>
+      </div>
+    </header>
+    <section>
+      <div class="container">
+        <h2 calss="text-center">The Story</h2>
+        <div class="split">
+            <div>
+                <p>Heart diseases are a rising issue in Singapore due to its’ aging population. <br> As of 2019, one in three deaths are lost to CVDs (cardiovascular disease). Heart attacks are highly preventable with simple lifestyle modifications such as reducing alcohol and smoking, eating healthily, and exercising often.  These efforts, coupled with early treatment, greatly improves its prognosis.  </p>
+            </div>
+           
+        </div>
+      </div>
+    </section>
+
+
+    <section class="bg-dark">
+        <div class="container">
+          <h2 calss="text-center">What is Our Goal </h2>
+          <div class="split">
+              <div>
+                  <p> 1.  To create a machine learning model to predict risk of heart disease based on biological parameters of that person.<br>
+                     2.  To develop a web application for the heart disease prediction model where users can input the relevant parameters and retrieve predictions.</p>
+              </div>
+             
+          </div>
+        </div>
+      </section>
+
+      <section class="bg-light">
+        <div class="container">
+          <h2 calss="text-center">Where we got the data: </h2>
+          <div class="split">
+              <div>
+                  <p> Center for Machine Learning and Intelligent Systems, University of California, Irvine <br>
+                    1. Cleveland Clinic Foundation <br>
+                    2. Hungarian Institute of Cardiology <br>
+                    3. V.A. Medical Center, Long Beach CA <br>
+                    4. University Hospital, Zurich 
+                </p>
+
+              </div>
+             
+          </div>
+        </div>
+      </section>  
+
+    <section class="bg-dark">
+      <div class="container">
+        <div class="split">
+            <div>
+                <h2> How we predict: </h2>
+                <p>Data prediction and exploration:
+                    First Look of data set.</p>
+
+            </div>
+            <div>
+                <img src="../static/eda.jpg" alt="" >
+               
+            </div>
+        </div>
+    </div>
+    </section>
+
+    <section class="bg-primary">
+        <div class="container">
+          <div class="split">
+              <div>
+                  <!-- <h2>Checking for data types and size of the dataset  </h2> -->
+                  <p>Checking for data types and size of the dataset 
+                      </p>
+  
+              </div>
+              <div>
+                  <img src="../static/chknull.jpg" alt="" >
+                 
+              </div>
+          </div>
+      </div>
+      </section>
+      <section class="bg-neutral">
+        <div class="container">
+          <div class="split">
+              <div>
+                  <!-- <h2>Checking for data types and size of the dataset  </h2> -->
+                  <p>Checking Missing Values 
+                      </p>
+  
+              </div>
+              <div>
+                  <img src="../static/missval.jpg" alt="" >
+                 
+              </div>
+          </div>
+      </div>
+      </section>
+
+      <section class="bg-primary">
+        <div class="container">
+          <div class="split">
+              <div>
+                <h2>Model Accuracy</h2>
+                  <!-- <h2>Checking for data types and size of the dataset  </h2> -->
+                  <p> An ROC curve (receiver operating characteristic curve) is a graph showing the performance of a classification model at all classification thresholds.</p>
+                  <p>Here we are having roc for 1.Random Forest <br> 2.Logistic Regresstion 
+                  <br> 3.K.Nearest Neighbours <br> 4. Support Vactor Machine<br> 5.Gradient Boosting<br>
+                  6.Naive Bayes<br>7.Adaptive Boosting </p>    
+                  <p> Comaparing the performance of all classification models,we got the highest accuracy for the Randam Forest Algorithm. The accuracy is 95% </p>  
+              </div>
+              <div>
+                  <img src="../static/roc15june.jpg" alt="" >
+                 
+              </div>
+          </div>
+      </div>
+      </section>
+
+      <section class="bg-dark">
+        <div class="container">
+          <h2 calss="text-center">Algorithm used </h2>
+          <div class="split">
+              <div>
+                  <p> Random Forest </p>
+                  <p> Random Forest is a supervised machine learning algorithm made up of decision trees; Random Forest is used for both classification and regression.</p>
+                  <p>One big advantage of random forest is that it can be used for both classification and regression problems, which form the majority of current machine learning systems.</p>
+                </div>
+             
+          </div>
+        </div>
+      </section>
+
+      <section class="bg-light">
+        <div class="container">
+          <h2 calss="text-center">Model Deployment </h2>
+          <div class="split">
+              <div>
+                  <p>To start the deployment and build the web application ,we use the FLASK wep application framework.</p>
+                  <p>For the web application we are creating. </p>
+                  <P>=> Web app python code (API) to load the model, get user input from the html template, make prediction and return the result. </P>
+                                         
+                    
+              </div>
+             
+          </div>
+        </div>
+      </section>
+      <section class="bg-primary">
+        <div class="container">
+          <h2 calss="text-center">Legal disclaimer </h2>
+          <div class="split">
+              <div>
+                     <p>The content displayed on the website is the intellectual property of the Singapore Polytechnic SGUS.</p>
+                     <p>All information posted is merely for educational purposes.</p> 
+                     <p>It is not intended as a substitute for professional advice. Should you decide to act upon any information on this website, you do so at your own risk. </p> 
+
+                    
+              </div>
+             
+          </div>
+        </div>
+      </section>
+
+    <!-- <section class="bg-primary">
+      <div calss="container">
+        <div class="split">
+            
+            <div>
+                <h2>Model Accuracy</h2>
+                <p></p>
+            </div>
+            <div>
+                <img src="../static/roc15june.jpg" alt="" >
+            </div>
+        </div>
+    </div>
+    </section>   -->
+    
+    
+
+</body>
+</html>
