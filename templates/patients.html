@@ -1,6 +1,7 @@
 {% extends "parent.html" %}
 {% block title %}Patients{% endblock %}
 {% block head %}
+	{{ super() }}
 	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 {% endblock %}
 {% block content %}
@@ -10,13 +11,13 @@
     });
 </script>
 	<br />
-	<h3 style="text-align:center; color:White">List of Patients:</h3>
+	<h3 style="text-align:center; color:White">List of Patients</h3>
 	<br />
 	<div class="panel panel-default">
 		<!-- <div class="panel-heading">DataTable</div> -->
 		<div class="panel-body">
 			<div class="table-responsive">
-				<table id="userlist" class="table table-bordered table-striped table-sm">
+				<table id="userlist" class="table table-bordered table-sm">
 					<thead style="background-color:yellowgreen">
 						<tr>
 							<th>Patient ID</th>
