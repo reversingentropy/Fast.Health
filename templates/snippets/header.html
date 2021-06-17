@@ -1,8 +1,7 @@
 
 <div class="card">
-	<img class="card-img" src="{{ url_for('static', filename='img/logo8.jpg') }}" alt="Heart Disease" width="100%" height="150px"/>
+	<img class="card-img" src="{{ url_for('static', filename='img/logo8.jpg') }}" />
 	<div class="card-img-overlay text-white d-flex justify-content-center align-items-end">
-		<p><h1>Fast.<b>Health</b></h1></p>
 	</div>		
 </div>
 
@@ -48,12 +47,13 @@
                         <a href="{{ '/changeRoleUser' }}" class="dropdown-item">Update</a>
                         <a href="{{ '/deleteUser' }}" class="dropdown-item">Delete</a>
                     </div>
-                </li>
-                <li class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">About&nbsp;&nbsp;</a>
-                    <div class="dropdown-menu">
-                        <a href="{{ '/aboutx' }}" class="dropdown-item">ML Model</a>
-                        <a href="#" class="dropdown-item">Contributors</a>
+                </div>
+                <div class="dropdown">
+                    <button class="btn dropdown-toggle" type="button" id="aboutMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        About&nbsp;&nbsp;&nbsp;
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a href="{{ '/aboutx' }}" class="dropdown-item">Tests</a>
                     </div>
                 </div>
                 <div class="ml-auto">
