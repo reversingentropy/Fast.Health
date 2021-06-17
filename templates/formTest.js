@@ -7,7 +7,7 @@ $(function() {
         age : {
             required: true,
             number: true,
-            range: [18, 120]
+            range: [18, 100]
 
         },
         rbp:{
@@ -43,7 +43,7 @@ $(function() {
         age : {
             required: "Please enter your age",
             number: "Please enter numerical values.",
-            range: "Please enter a valid value between 18 and 120."
+            range: "Please enter a valid value between 18 and 100."
             },
         rbp : {
             required: "Please enter your resting blood pressure.",

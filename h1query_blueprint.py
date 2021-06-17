@@ -3,16 +3,15 @@
 Created on Mon May  3 20:44:43 2021
 @author: Lenovo
 """
-from flask import render_template, request, make_response
-from flask import Blueprint
+from datetime import date,datetime
+from flask import json
+from flask import render_template, request, make_response,jsonify,g,Blueprint
 from model.Params import Param
 from model.H1Query import H1Query
 from validation.Validator import *
-from model.H1Query import H1Query
 from model.Patient import Patient
 from config.Settings import Settings
 import jwt
-from flask import jsonify,g
 import pickle
 
 h1query_blueprint = Blueprint(
@@ -112,7 +111,6 @@ def display():
     payload = jwt.decode(auth_token, Settings.secretKey, algorithms=["HS256"])
     g.userid = payload['userid']
     pats = Patient.getAllPatients(userid= g.userid)
-    print(pats)
     if len(pats)==0:
         return render_template('indexEmpty.html')
     else:

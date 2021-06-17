@@ -33,14 +33,15 @@ font-style:normal;
             <label for="pId">PatientID </label>
             <select name="pId" id="pId" class="form-control">
               {% for x in pats %}
-              <option value="{{x.patientid}}">{{x.patientid}}</option>
+              <option value="{{x.patientid}}">{{x.patientid}} - {{x.patientname}}</option>
               {%endfor%}
             </select>
                     </div>
 
           <div class="form-group">
             <label for="age">Age</label>
-            <input type="text" class="form-control" name="age" id="age" >
+
+            <input  type="text" class="form-control" name="age" id="age" >
           </div>
 
           <div class="form-group">
