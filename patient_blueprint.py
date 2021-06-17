@@ -46,7 +46,7 @@ def newPatient():
     userid = Patient.getUserID(request)
     print(userid)
     patient_dict= Patient.InitVal(userid)
-    return render_template('insupd_patients.html', message='', action='insert', patient_dict=patient_dict), 200
+    return render_template('insupd_patients.html', message='New Patient', action='insert', patient_dict=patient_dict), 200
 
 
 @patient_blueprint.route('/patient', methods=['POST'])
@@ -76,10 +76,10 @@ def insupdPatient():
             patientid = int(request.form['patientid'])
             print('PatID:', patientid)
             output = Patient.updatePatient(patientid, patient_dict)
-            msgOutput = 'Rows Affected=' + str( output )
+            msgOutput =  str( output ) + ' record updated.'
             jsonPatients = Patient.getAllPatients(userid)
             params = Param.PatientsTableUpdateButton()
-            return render_template('patients.html', results=jsonPatients, params=params), 200
+            return render_template('patients.html', results=jsonPatients, params=params, message=msgOutput), 200
 
     except Exception as err:
         print(err)
@@ -102,11 +102,12 @@ def updatePatient(patientid):
                                         
         else:
             # Error retrieve info
-            return render_template('patients.html', params=Param.PatientsTableDefButton()), 500
+            messaage='Patient record not found!'
+            return render_template('patients.html', params=Param.PatientsTableDefButton(), message=message), 500
 
     except Exception as err:
         print(err)
-        return render_template('patients.html', params=Param.PatientsTableDefButton()), 500
+        return render_template('patients.html', params=Param.PatientsTableDefButton(), message=err), 500
 
 @patient_blueprint.route('/deletePatient/<int:patientid>', methods=['GET'])
 # @require_login
@@ -121,11 +122,11 @@ def deletePatient(patientid):
             ret = 200
         else:
             ret = 401
-        msgOutput = 'Rows affected:' + str(output)
+        msgOutput = str(output) + ' record deleted.'
             # Display list of patients            
         jsonPatients = Patient.getAllPatients(userid)
         params = Param.PatientsTableDeleteButton()
-        resp = make_response(render_template('patients.html', params=params, results=jsonPatients, status=msgOutput),ret)
+        resp = make_response(render_template('patients.html', params=params, results=jsonPatients, status=msgOutput, message=msgOutput),ret)
 #        resp.set_cookie('jwt', output["jwt"]) #writes instructions in the header for browser to save a cookie to browser for the jwt 
         return resp
 

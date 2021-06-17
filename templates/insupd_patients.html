@@ -197,12 +197,15 @@
 				<br>
 			</form>			
 		</div>
-		<div class="card" style="width: 18rem;">
+		<br>
+		{% if action == 'insert' %}
+		<div class="card" style="width: 50rem;">
 			<div class="card-body">
 				<h5 class="card-title">Status:</h5>
 				<p class="card-text">{{message}}</p>
 			</div>
-			</div>
+		</div>
+		{% endif %}
 <br />
 <br />
 
