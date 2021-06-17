@@ -13,7 +13,7 @@ class Settings:
         host=''
         database=''
         user=''
-        password='!'
+        password=''
 
     else:
         #Staging on heroku
