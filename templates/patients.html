@@ -47,6 +47,9 @@
 							<td data-name="address" class="address" data-type="text" data-pk="{{row.userid}}">{{row.address}}</td>
 							<td data-name="postcode" class="" data-type="text" data-pk="{{row.userid}}">{{row.postcode}}</td>
 							<td>
+							{% if (params['queryButton']) %}
+								<a href="/h1query?patientid={{row.patientid}}" class="btn btn-warning" >Query</a>
+							{% endif %}
 							{% if (params['changeButton']) %}
 								<a href="/updatePatient/{{row.patientid}}" class="btn btn-warning" >Update</a>
 							{% endif %}

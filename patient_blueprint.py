@@ -25,21 +25,20 @@ patient_blueprint = Blueprint('patient_blueprint', __name__, template_folder='te
 def listallpatients():  # list all Patients for select
     try:
         userid = Patient.getUserID(request)
-        # auth_token=request.cookies.get("jwt")
-        # payload = jwt.decode(auth_token, Settings.secretKey, algorithms=["HS256"])
-        # g.userid = payload['userid'] # update info in flask application context's g which lasts for one req/res cycle
-        userid = g.userid
-
+#        userid = g.userid
+        role = g.role
+        print('User ID: ', userid, ' Role:', role)
+        if role == 'admin':
+            userid = -1        
         jsonPatients = Patient.getAllPatients(userid)
-#        jsonPatients = {'Patients' : jsonPatients}
-        print(userid)
-        params = Param.PatientsTableNoButton()
+        params = Param.PatientsTableDefButton()
 
 #        info = jsonify(jsonPatients)
         return render_template('patients.html', results=jsonPatients, params=params), 200
     
     except Exception as err:
         print(err)  # for debugging
+        return render_template('patients.html', params=Param.PatientsTableDefButton()), 500
 
 @patient_blueprint.route('/insert_patients')
 # @require_login
@@ -103,11 +102,11 @@ def updatePatient(patientid):
                                         
         else:
             # Error retrieve info
-            return render_template('patients.html', params=Param.ForgotWithErrorParams()), 500
+            return render_template('patients.html', params=Param.PatientsTableDefButton()), 500
 
     except Exception as err:
         print(err)
-        return render_template('patients.html', params=Param.ForgotWithErrorParams()), 500
+        return render_template('patients.html', params=Param.PatientsTableDefButton()), 500
 
 @patient_blueprint.route('/deletePatient/<int:patientid>', methods=['GET'])
 # @require_login
