@@ -28,8 +28,9 @@ h1query_blueprint = Blueprint(
 def listallH1Queries():  # list all Patients for select
 
     try:
-        
-        jsonPatients = H1Query.getAllH1Queries()
+        patientid = request.args.get('patientid', default=-1)
+        print('Patientid:', patientid)
+        jsonPatients = H1Query.getAllH1Queries(patientid)
         
         return render_template('queries.html', info=jsonPatients, params=Param.QueryTableNoButtons()), 200
 
