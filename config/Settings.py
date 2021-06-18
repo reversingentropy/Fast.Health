@@ -6,14 +6,14 @@ class Settings:
 
     modelFile = "data/model.pkl" # machine learning model
 
-    dbUsed = 'local'
+    dbUsed = 'pooling'
 
-    if dbUsed == 'local':
+    if dbUsed == 'pooling':
         #Staging on local machine
-        host='localhost'
-        database='fasthealth'
-        user='root'
-        password='sum381Tk!'
+        host=''
+        database=''
+        user=''
+        password='!'
 
     else:
         #Staging on heroku
