@@ -20,6 +20,7 @@ import os, pickle
 
 app = Flask(__name__, template_folder='templates')
 # CORS(app) # to enable CORS middleware for all origins
+app.secret_key = Settings.secretKey
 
 params = Param.SetAllFalseParams()
 

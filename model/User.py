@@ -5,6 +5,7 @@ Created on Mon May  3 20:35:00 2021
 @author: Lenovo
 """
 # from model.DatabasePool import DatabasePool
+from flask import session
 from config.Settings import Settings
 if Settings.dbUsed == 'pooling':
     from model.DatabasePool import DatabasePool
@@ -15,9 +16,6 @@ import jwt
 import bcrypt
 
 class User:
-
-    uuid = -1
-    umodel = None
 
     @classmethod
     def getAllUsers(cls):
@@ -103,20 +101,25 @@ class User:
 
     @classmethod
     def deleteUser(cls, userid):
-        if User.uuid != userid:
-            try:
-                dbConn = DatabasePool.getConnection()
-                cursor = dbConn.cursor(dictionary=True)
+        if 'userid' in session:
+            if session['userid'] != userid:
+                try:
+                    dbConn = DatabasePool.getConnection()
+                    cursor = dbConn.cursor(dictionary=True)
 
-                sql = "DELETE FROM users WHERE userid=%s"
-                users = cursor.execute(sql, (userid,))
-                dbConn.commit()
+                    sql = "DELETE FROM users WHERE userid=%s"
+                    users = cursor.execute(sql, (userid,))
+                    dbConn.commit()
 
-                rows = cursor.rowcount
-                return rows
-            finally:
-                dbConn.close()
-                print('release connection')
+                    rows = cursor.rowcount
+                    return rows
+                finally:
+                    dbConn.close()
+                    print('release connection')
+            else:
+                return -1
+        else:
+            return -1
 
     @classmethod
     def loginUser(cls, email, password):
