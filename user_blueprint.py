@@ -5,7 +5,7 @@ Created on Mon May  3 20:44:43 2021
 @author: Lenovo
 """
 from flask import render_template, request, make_response, g
-from flask import Blueprint
+from flask import Blueprint, session
 from model.Params import Param
 from model.User import User
 from model.H1Query import H1Query
@@ -103,7 +103,7 @@ def verifyUser():
         output, _uid = User.loginUser(request.form['email'], request.form['password'])
         if len(output['jwt']) > 0:
             # info = H1Query.initPredInfo()
-            User.uuid = _uid
+            session['userid'] = _uid
             resp = make_response(render_template('welcome.html'),200)
             resp.set_cookie('jwt', output["jwt"]) #writes instructions in the header for browser to save a cookie to browser for the jwt 
             return resp
