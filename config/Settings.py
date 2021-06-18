@@ -6,9 +6,9 @@ class Settings:
 
     modelFile = "data/model.pkl" # machine learning model
 
-    dbUsed = 'pooling'
+    dbUsed = 'local'
 
-    if dbUsed == 'pooling':
+    if dbUsed == 'local':
         #Staging on local machine
         host=''
         database=''

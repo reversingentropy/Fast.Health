@@ -59,7 +59,7 @@ class User:
             print('release connection')
 
     @classmethod
-    def updateUser(cls, username, email, password):
+    def updateUserx(cls, username, email, password):
         try:
             print('updateUser ', username, email, password)
             dbConn = DatabasePool.getConnection()
