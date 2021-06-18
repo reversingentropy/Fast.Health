@@ -10,10 +10,10 @@ class Settings:
 
     if dbUsed == 'local':
         #Staging on local machine
-        host='localhost'
-        database='fasthealth'
-        user='root'
-        password='sum381Tk!'
+        host=''
+        database=''
+        user=''
+        password=''
 
     else:
         #Staging on heroku
