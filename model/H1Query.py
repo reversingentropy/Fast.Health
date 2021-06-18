@@ -60,7 +60,7 @@ class H1Query:
                 sql = "SELECT * FROM h1queries;"
                 cursor.execute(sql)
             else:
-                sql = "SELECT * FROM h1queries WHERE userid=%s;"
+                sql = "SELECT * FROM h1queries WHERE patientid=%s;"
                 cursor.execute(sql,(patientid,))
             h1queries = cursor.fetchall()
             return h1queries
