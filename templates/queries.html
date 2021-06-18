@@ -4,10 +4,54 @@
 	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 {% endblock %}
 {% block content %}
+<style>
+	@media screen and (max-width: 600px) {
+		table {
+			width: 100%;
+		}
+
+		table thead {
+			display: none;
+		}
+
+		table tr, table td {
+			padding: 5px;
+		}
+
+		table td {
+			display: flex;
+		}
+		
+		table td::before {
+			content: attr(label);
+			font-weight: bold;
+			width: 120px;
+			min-width: 120px;
+		}
+
+		.queryHead{
+			background-color:yellowgreen;
+			font-weight: bold;
+		}
+	}
+	
+</style>
 <script type="text/javascript" language="javascript">
     $(document).ready(function(){
         var dataTable = $('#userlist').DataTable();
     });
+
+	window.setMobileTable = function (selector) {
+			// if (window.innerWidth > 600) return false;
+			const tableEl = document.querySelector(selector);
+			const thEls = tableEl.querySelectorAll('thead th');
+			const tdLabels = Array.from(thEls).map(el => el.innerText);
+			tableEl.querySelectorAll('tbody tr').forEach(tr => {
+				Array.from(tr.children).forEach(
+					(td, ndx) => td.setAttribute('label', tdLabels[ndx])
+				);
+			});
+	}
 </script>
 	<br />
 	<h3 style="text-align:center; color:White">List of Queries:</h3>
@@ -36,12 +80,15 @@
 							<th>Slope of peak exercise ST</th>
 							<th>Number of major vessels</th>
 							<th>Thalassemia</th>
+							{% if (params['deleteButton']) %}
+							<th></th>
+							{% endif %}
 						</tr>
 					</thead>
 					<tbody>
 						{% for row in info %}
 						<tr>
-							<td data-pk="{{row.userid}}">{{row.queryid}}</td>
+							<td data-pk="{{row.userid}}" class ="queryHead">{{row.queryid}}</td>
 							<td data-name="patientid " class="patientid " data-type="text" data-pk="{{row.userid}}">{{row.patientid}}</td>
 							<td data-name="datequery" class="datequery " data-type="text" data-pk="{{row.userid}}">{{row.datequery}}</td>
 							<td data-name="result" class="result" data-type="text" data-pk="{{row.userid}}">{{row.result}}</td>
@@ -58,18 +105,27 @@
 							<td data-name="slope" class="slope" data-type="text" data-pk="{{row.userid}}">{{row.slope}}</td>
 							<td data-name="ca" class="ca" data-type="text" data-pk="{{row.userid}}">{{row.ca}}</td>
 							<td data-name="thal" class="thal" data-type="text" data-pk="{{row.userid}}">{{row.thal}}</td>
-							<td>
+
+							<!-- <td style="background-color:grey">
+								
 							{% if (params['changeButton']) %}
 								<a href="/changeH1Query/{{row.queryid}}" class="btn btn-warning" >Update</a>
 							{% endif %}
 							{% if (params['deleteButton']) %}
 								<a href="/deleteH1Query/{{row.queryid}}" class="btn btn-danger" >Delete</a>
 							{% endif %}
+							</td>	 -->
+
+							{% if (params['deleteButton']) %}
+							<td>
+								<a href="/deleteH1Query/{{row.queryid}}" class="btn btn-danger">Delete</a>
 							</td>
+							{% endif %}
 						</tr>
 						{% endfor %}
 					</tbody>
 				</table>
+				<script>setMobileTable('table')</script>
 			</div>
 		</div>
 	</div>
