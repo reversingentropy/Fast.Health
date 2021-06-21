@@ -36,7 +36,7 @@
 					<tbody>
 						{% for row in results %}
 						<tr>
-							<td data-pk="{{row.userid}}">{{row.patientid}}</td>
+							<td data-pk="{{row.userid}}"  class ="portraitTableHead">{{row.patientid}}</td>
 							<td data-name="name" class="name" data-type="text" data-pk="{{row.userid}}">{{row.patientname}}</td>
 							<td data-name="gender" class="gender" data-type="text" data-pk="{{row.userid}}">{{row.gender}}</td>
 							<td data-name="age" class="age" data-type="text" data-pk="{{row.userid}}">{{row.age}}</td>
@@ -61,6 +61,7 @@
 						{% endfor %}
 					</tbody>
 				</table>
+				<script>setMobileTable('table')</script>
 			</div>
 		</div>
 	</div>
