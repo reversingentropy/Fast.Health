@@ -7,17 +7,64 @@
 {% block content %}
 <script type="text/javascript" language="javascript">
     $(document).ready(function(){
-        var dataTable = $('#userlist').DataTable();
+        var dataTable = $('#patientlist').DataTable();
     });
+
+	window.setMobileTable = function (selector) {
+			// if (window.innerWidth > 600) return false;
+			const tableEl = document.querySelector(selector);
+			const thEls = tableEl.querySelectorAll('thead th');
+			const tdLabels = Array.from(thEls).map(el => el.innerText);
+			tableEl.querySelectorAll('tbody tr').forEach(tr => {
+				Array.from(tr.children).forEach(
+					(td, ndx) => td.setAttribute('label', tdLabels[ndx])
+				);
+			});
+	};
+
+</script>
+<style>
+	@media screen and (max-width: 600px) {
+		table {
+			width: 100%;
+		}
+
+		table thead {
+			display: none;
+		}
+
+		table tr, table td {
+			padding: 5px;
+		}
+
+		table td {
+			display: flex;
+		}
+		
+		table td::before {
+			content: attr(label);
+			font-weight: bold;
+			width: 120px;
+			min-width: 120px;
+		}
+
+		.queryHead{
+			background-color:yellowgreen;
+			font-weight: bold;
+		}
+	}
+	
+</style>
+<script type="text/javascript" language="javascript">
 </script>
 	<br />
 	<h3 style="text-align:center; color:White">List of Patients</h3>
 	<br />
-	<div class="panel panel-default">
+	<div class="panel panel-default" style="background-color:rgb(235, 214, 187); padding:5px">
 		<!-- <div class="panel-heading">DataTable</div> -->
 		<div class="panel-body">
 			<div class="table-responsive">
-				<table id="userlist" class="table table-bordered table-sm">
+				<table id="patientlist" class="table table-bordered table-striped responsive" style="width:100%">
 					<thead style="background-color:yellowgreen">
 						<tr>
 							<th>Patient ID</th>
@@ -41,7 +88,7 @@
 							<td data-name="gender" class="gender" data-type="text" data-pk="{{row.userid}}">{{row.gender}}</td>
 							<td data-name="age" class="age" data-type="text" data-pk="{{row.userid}}">{{row.age}}</td>
 							<td data-name="nricno" class="nricno" data-type="text" data-pk="{{row.userid}}">{{row.nricno}}</td>
-							<td data-name="dob" class="dob" data-type="text" data-pk="{{row.userid}}">{{row.dob}}</td>
+							<td data-name="dob" class="dob" data-type="text" data-pk="{{row.userid}}">{{row.dob.strftime('%Y-%m-%d')}}</td>
 							<td data-name="contactno" class="contactno" data-type="text" data-pk="{{row.userid}}">{{row.contactno}}</td>
 							<td data-name="email" class="email" data-type="text" data-pk="{{row.userid}}">{{row.email}}</td>
 							<td data-name="address" class="address" data-type="text" data-pk="{{row.userid}}">{{row.address}}</td>

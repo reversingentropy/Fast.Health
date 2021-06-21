@@ -122,12 +122,10 @@ def updateUser():
     email = request.form['emailf']
     password = request.form['passwordf']
     password1 = request.form['passwordf1']
-
     if (password == password1):
         try:        
-            output = User.updateUser(username, email, password)
+            output = User.updateUserx(username, email, password)
             jsonOutput = {'Rows Affected' : output}
-
             if output > 0:
                 return render_template('login.html', params=Param.SetAllFalseParams()), 201
                                         
