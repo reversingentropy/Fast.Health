@@ -4,7 +4,7 @@
 	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 {% endblock %}
 {% block content %}
-<style>
+<!-- <style>
 	@media screen and (max-width: 600px) {
 		table {
 			width: 100%;
@@ -35,23 +35,11 @@
 		}
 	}
 	
-</style>
+</style> -->
 <script type="text/javascript" language="javascript">
     $(document).ready(function(){
         var dataTable = $('#userlist').DataTable();
     });
-
-	window.setMobileTable = function (selector) {
-			// if (window.innerWidth > 600) return false;
-			const tableEl = document.querySelector(selector);
-			const thEls = tableEl.querySelectorAll('thead th');
-			const tdLabels = Array.from(thEls).map(el => el.innerText);
-			tableEl.querySelectorAll('tbody tr').forEach(tr => {
-				Array.from(tr.children).forEach(
-					(td, ndx) => td.setAttribute('label', tdLabels[ndx])
-				);
-			});
-	}
 </script>
 	<br />
 	<h3 style="text-align:center; color:White">List of Queries:</h3>
@@ -88,7 +76,7 @@
 					<tbody>
 						{% for row in info %}
 						<tr>
-							<td data-pk="{{row.userid}}" class ="queryHead">{{row.queryid}}</td>
+							<td data-pk="{{row.userid}}" class ="portraitTableHead">{{row.queryid}}</td>
 							<td data-name="patientid " class="patientid " data-type="text" data-pk="{{row.userid}}">{{row.patientid}}</td>
 							<td data-name="datequery" class="datequery " data-type="text" data-pk="{{row.userid}}">{{row.datequery}}</td>
 							<td data-name="result" class="result" data-type="text" data-pk="{{row.userid}}">{{row.result}}</td>
