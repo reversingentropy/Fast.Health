@@ -71,8 +71,6 @@ class H1Query:
             dbConn.close()
             print('release connection')
 
-
-
     @classmethod
     def insertH1Query(cls, info):
         try:
@@ -97,6 +95,25 @@ class H1Query:
                                          info['slope'],
                                          info['ca'],
                                          info['thal']))
+            dbConn.commit()
+
+            # rows = cursor.rowcount
+            lastInsertId = cursor.lastrowid
+            return lastInsertId
+        finally:
+            dbConn.close()
+            print('release connection')
+
+    @classmethod 
+    def insertBlockH1Query(cls, info):
+        try:
+            dbConn = DatabasePool.getConnection()
+            cursor = dbConn.cursor(dictionary=True)
+
+            sql = "INSERT INTO h1queries (patientid,result,age,sex,cp,trestbps,chol,fbs, \
+                restecg,thalach,exang,oldpeak,slope,ca,thal) \
+                VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);"
+            cursor.executemany(sql, info)
             dbConn.commit()
 
             # rows = cursor.rowcount
