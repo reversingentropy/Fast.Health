@@ -32,13 +32,27 @@
     .button {
       width: 100%;
     }
+    .container-outer {
+      position:absolute;
+      top:0px;
+      bottom:0px;
+      width:100%;
+      height:auto;
+      background-color: #31968e;
+      /* background-color: lightblue; */
+    }
     .container {
       width: 600px;
       height: 500px;
-      border: solid 2px dodgerblue;
       border-radius: 10px;
-      background-image: url('static/img/ARA.jpg');
-      background-size : cover;
+      background-image: url('static/img/RAS.jpg');
+    }
+    .center {
+      position: absolute;
+      left: 50%;
+      margin-left:-300px;
+      margin-top:+50px;
+      padding: 10px;
     }
     .button-container form,
     .button-container form div {
@@ -55,122 +69,123 @@
   <title>Fast.Health</title>
 </head>
 <body>
-  <div class="container">
-    <h1 style="text-align:center; color:orange"><br />Fast.Health</h1><br />
-    <div style="text-align:center">
-      <div class="button-container">
-        <form method="POST" action="/registering" >
-          <button type="submit" name="registerbtn" id="registerbtn" class="btn btn-warning"
-            value="Submit" >&nbsp;Register</button>
-        </form>
-        <form method="POST" action="/login" >
-          <button type="submit" name="loginbtn" id="loginbtn" class="btn btn-warning"
-            value="Submit" ><span class="glyphicon glyphicon-hand-up"></span>&nbsp;Login</button>
-        </form>
+  <div class="container-outer">
+    <div class="container center">
+      <h1 style="text-align:center; color:orange"><br />Fast.Health</h1><br />
+      <div style="text-align:center">
+        <div class="button-container">
+          <form method="POST" action="/registering" >
+            <button type="submit" name="registerbtn" id="registerbtn" class="btn btn-warning"
+              value="Submit" >&nbsp;Register</button>
+          </form>
+          <form method="POST" action="/login" >
+            <button type="submit" name="loginbtn" id="loginbtn" class="btn btn-warning"
+              value="Submit" ><span class="glyphicon glyphicon-hand-up"></span>&nbsp;Login</button>
+          </form>
+        </div>
+        <br />
+        <a href="{{'/changepass'}}"><p style="color:orange; text-align:center">Forgot password?</p></a>
+        <br />
       </div>
-      <br />
-      <a href="{{'/changepass'}}"><p style="color:orange; text-align:center">Forgot password?</p></a>
-      <br />
-      <a href="{{'/shortcut'}}"><p style="color:orange; text-align:center">Shortcut</p></a>
     </div>
-  </div>
-  <div id="myModal" class="modal fade" role="dialog">
-    <div class="modal-dialog modal-sm">
-        <!-- Modal content -->
-          <div class="modal-content">
-            <div class="modal-body">
-              <form method="POST" action="/verifyUser" >
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h3 class="modal-title" style="text-align:center" >ACCOUNT LOGIN</h3>
-                <br />
-                <input type="text" name="email" id="email" class="form-control" placeholder="Email" />
-                <br />
-                <input type="password" name="password" id="password" class="form-control" placeholder="Password" />
-                <br />
-                <button type="submit" name="login_button" id="login_button" class="btn btn-primary button" value="Submit" >SIGN IN</button>
-                <br /><br />
-                <p style="text-align:center">Don't have an account? Register with us today!</p>
-                <a href="{{'/registering'}}"><p style="color:dodgerblue; text-align:center">SIGN UP</p></a>
-              </form>
-              <div>
-                {% if (params['displayMesg']) %}
-                  {% set displayMesg = False %}
-                  <br /><p>Invalid Login Credentials!</p><br />
-                {% else %}
-                  <br /><p> </p><br />
-                {% endif %}
+    <div id="myModal" class="modal fade" role="dialog">
+      <div class="modal-dialog modal-sm">
+          <!-- Modal content -->
+            <div class="modal-content">
+              <div class="modal-body">
+                <form method="POST" action="/verifyUser" >
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  <h3 class="modal-title" style="text-align:center" >ACCOUNT LOGIN</h3>
+                  <br />
+                  <input type="text" name="email" id="email" class="form-control" placeholder="Email" />
+                  <br />
+                  <input type="password" name="password" id="password" class="form-control" placeholder="Password" />
+                  <br />
+                  <button type="submit" name="login_button" id="login_button" class="btn btn-primary button" value="Submit" >SIGN IN</button>
+                  <br /><br />
+                  <p style="text-align:center">Don't have an account? Register with us today!</p>
+                  <a href="{{'/registering'}}"><p style="color:dodgerblue; text-align:center">SIGN UP</p></a>
+                </form>
+                <div>
+                  {% if (params['displayMesg']) %}
+                    {% set displayMesg = False %}
+                    <br /><p>Invalid Login Credentials!</p><br />
+                  {% else %}
+                    <br /><p> </p><br />
+                  {% endif %}
+                </div>
               </div>
             </div>
-          </div>
+      </div>
     </div>
-  </div>
-  <div id="myModalr" class="modal fade" role="dialog">
-    <div class="modal-dialog modal-sm">
-        <!-- Modal content -->
-          <div class="modal-content">
-            <div class="modal-body">
-              <form method="POST" action="/user" >
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h3 class="modal-title" style="text-align:center" >ACCOUNT SIGN UP</h3>
-                <br />
-                <input type="text" name="usernamer" id="usernamer" class="form-control" placeholder="Username" />
-                <br />
-                <input type="text" name="emailr" id="emailr" class="form-control" placeholder="Email" />
-                <br />
-                <input type="password" name="passwordr" id="passwordr" class="form-control" placeholder="Password" />
-                <br />
-                <input type="password" name="passwordr1" id="passwordr1" class="form-control" placeholder="Confirm Password" />
-                <input type="hidden" id="roler" name="roler" value="member">
-                <br />
-                <button type="submit" name="insertbtn" id="insertbtn" class="btn btn-primary button" value="Submit" >SIGN UP</button>
-                <br /><br />
-                <p style="text-align:center">Have an account? Login here!</p>
-                <a href="{{'/login'}}"><p style="color:dodgerblue; text-align:center">SIGN IN</p></a>
-              </form>
-              <div>
-                {% if (params['displayMesgr']) %}
-                  {% set displayMesgr = False %}
-                  <br /><p>Registration Error Encountered!</p><br />
-                {% else %}
-                  <br /><p> </p><br />
-                {% endif %}
+    <div id="myModalr" class="modal fade" role="dialog">
+      <div class="modal-dialog modal-sm">
+          <!-- Modal content -->
+            <div class="modal-content">
+              <div class="modal-body">
+                <form method="POST" action="/user" >
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  <h3 class="modal-title" style="text-align:center" >ACCOUNT SIGN UP</h3>
+                  <br />
+                  <input type="text" name="usernamer" id="usernamer" class="form-control" placeholder="Username" />
+                  <br />
+                  <input type="text" name="emailr" id="emailr" class="form-control" placeholder="Email" />
+                  <br />
+                  <input type="password" name="passwordr" id="passwordr" class="form-control" placeholder="Password" />
+                  <br />
+                  <input type="password" name="passwordr1" id="passwordr1" class="form-control" placeholder="Confirm Password" />
+                  <input type="hidden" id="roler" name="roler" value="member">
+                  <br />
+                  <button type="submit" name="insertbtn" id="insertbtn" class="btn btn-primary button" value="Submit" >SIGN UP</button>
+                  <br /><br />
+                  <p style="text-align:center">Have an account? Login here!</p>
+                  <a href="{{'/login'}}"><p style="color:dodgerblue; text-align:center">SIGN IN</p></a>
+                </form>
+                <div>
+                  {% if (params['displayMesgr']) %}
+                    {% set displayMesgr = False %}
+                    <br /><p>Registration Error Encountered!</p><br />
+                  {% else %}
+                    <br /><p> </p><br />
+                  {% endif %}
+                </div>
               </div>
             </div>
-          </div>
+      </div>
     </div>
-  </div>
-  <div id="myModalf" class="modal fade" role="dialog">
-    <div class="modal-dialog modal-sm">
-        <!-- Modal content -->
-          <div class="modal-content">
-            <div class="modal-body">
-              <form method="POST" action="/changePasswordUser" >
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h3 class="modal-title" style="text-align:center" >CHANGE PASSWORD</h3>
-                <br />
-                <input type="text" name="usernamef" id="usernamef" class="form-control" placeholder="Username" />
-                <br />
-                <input type="text" name="emailf" id="emailf" class="form-control" placeholder="Email" />
-                <br />
-                <input type="password" name="passwordf" id="passwordf" class="form-control" placeholder="Password" />
-                <br />
-                <input type="password" name="passwordf1" id="passwordf1" class="form-control" placeholder="Confirm Password" />
-                <br />
-                <button type="submit" name="updatebtn" id="updatebtn" class="btn btn-primary button" value="Submit" >UPDATE</button>
-                <br /><br />
-                <p style="text-align:center">Have an account? Login here!</p>
-                <a href="{{'/login'}}"><p style="color:dodgerblue; text-align:center">SIGN IN</p></a>
-              </form>
-              <div>
-                {% if (params['displayMesgf']) %}
-                  {% set displayMesgf = False %}
-                  <br /><p>Change password problem encountered!</p><br />
-                {% else %}
-                  <br /><p> </p><br />
-                {% endif %}
+    <div id="myModalf" class="modal fade" role="dialog">
+      <div class="modal-dialog modal-sm">
+          <!-- Modal content -->
+            <div class="modal-content">
+              <div class="modal-body">
+                <form method="POST" action="/changePasswordUser" >
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  <h3 class="modal-title" style="text-align:center" >CHANGE PASSWORD</h3>
+                  <br />
+                  <input type="text" name="usernamef" id="usernamef" class="form-control" placeholder="Username" />
+                  <br />
+                  <input type="text" name="emailf" id="emailf" class="form-control" placeholder="Email" />
+                  <br />
+                  <input type="password" name="passwordf" id="passwordf" class="form-control" placeholder="Password" />
+                  <br />
+                  <input type="password" name="passwordf1" id="passwordf1" class="form-control" placeholder="Confirm Password" />
+                  <br />
+                  <button type="submit" name="updatebtn" id="updatebtn" class="btn btn-primary button" value="Submit" >UPDATE</button>
+                  <br /><br />
+                  <p style="text-align:center">Have an account? Login here!</p>
+                  <a href="{{'/login'}}"><p style="color:dodgerblue; text-align:center">SIGN IN</p></a>
+                </form>
+                <div>
+                  {% if (params['displayMesgf']) %}
+                    {% set displayMesgf = False %}
+                    <br /><p>Change password problem encountered!</p><br />
+                  {% else %}
+                    <br /><p> </p><br />
+                  {% endif %}
+                </div>
               </div>
             </div>
-          </div>
+      </div>
     </div>
   </div>
 </body>
