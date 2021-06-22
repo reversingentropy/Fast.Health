@@ -4,7 +4,7 @@ class Settings:
 
     secretKey="a12nc)238OmPq#cxOlm*a" # your own secret key
 
-    modelFile = "data/model.pkl" # machine learning model
+    modelFile = "./data/model.pkl" # machine learning model
 
     dbUsed = 'heroku'
 
@@ -13,7 +13,7 @@ class Settings:
         host='localhost'
         database='fasthealth'
         user='root'
-        password=''
+        password='sum381Tk!'
 
     else:
         #Staging on heroku

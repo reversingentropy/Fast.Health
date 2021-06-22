@@ -54,6 +54,7 @@ def newPatient():
 def insupdPatient():
     userid = Patient.getUserID(request)
     action = request.form['action']
+    print('Action=', action)
 
     patient_dict = {'userid': userid,
                     "name": request.form['name'], 
@@ -70,7 +71,7 @@ def insupdPatient():
         if action == 'insert':  # Insert
             output = Patient.insertPatient(patient_dict)
             msgOutput = 'Rows Affected=' + str( output )
-            return render_template('insupd_patients.html', params=Param.SetAllFalseParams(), action='insert', message='Status: '+ msgOutput, patient_dict=Patient.InitVal(userid)), 201
+            return render_template('insupd_patients.html', params=Param.SetAllFalseParams(), action=action, message='Status: '+ msgOutput, patient_dict=Patient.InitVal(userid)), 201
 
         else: # Update
             patientid = int(request.form['patientid'])
@@ -79,11 +80,11 @@ def insupdPatient():
             msgOutput =  str( output ) + ' record updated.'
             jsonPatients = Patient.getAllPatients(userid)
             params = Param.PatientsTableUpdateButton()
-            return render_template('patients.html', results=jsonPatients, params=params, message=msgOutput), 200
+            return render_template('patients.html', results=jsonPatients, params=params, action=action, message=msgOutput), 200
 
     except Exception as err:
         print(err)
-        return render_template('insupd_patients.html', params=Param.RegisteringWithErrorParams(), action='insert', message=err, patient_dict=Patient.InitVal(userid)), 500
+        return render_template('insupd_patients.html', params=Param.RegisteringWithErrorParams(), action=action, message=err, patient_dict=Patient.InitVal(userid)), 500
 
 @patient_blueprint.route('/updatePatient/<int:patientid>', methods=['GET'])
 # @require_login
@@ -126,19 +127,28 @@ def deletePatient(patientid):
             # Display list of patients            
         jsonPatients = Patient.getAllPatients(userid)
         params = Param.PatientsTableDeleteButton()
-        resp = make_response(render_template('patients.html', params=params, results=jsonPatients, status=msgOutput, message=msgOutput),ret)
+        resp = make_response(render_template('patients.html', params=params, results=jsonPatients, message=msgOutput),ret)
 #        resp.set_cookie('jwt', output["jwt"]) #writes instructions in the header for browser to save a cookie to browser for the jwt 
         return resp
 
     except Exception as err:
         print(err)
-        return render_template('patients.html', params=Param.LoggingWithErrorParams()), 401
+        jsonPatients = Patient.getAllPatients(userid)
+        params = Param.PatientsTableDeleteButton()
+        msgOutput = "Error to delete patient with ID " + str(patientid)
+        resp = make_response(render_template('patients.html', params=params, results=jsonPatients, message=msgOutput), 401)
+#        return render_template('patients.html', params=Param.LoggingWithErrorParams()), 401
+        return resp
 
 
 @patient_blueprint.route('/update_patients', methods=['GET'])
 def gotoupdtepatient(): # list all Users for select
     try:
         userid = Patient.getUserID(request)
+        role = g.role
+        print('User ID: ', userid, ' Role:', role)
+        if role == 'admin':
+            userid = -1        
         jsonPatients = Patient.getAllPatients(userid =userid)
         params = Param.PatientsTableUpdateButton()
         return render_template('patients.html', results=jsonPatients, params=params), 200
@@ -151,7 +161,11 @@ def gotoupdtepatient(): # list all Users for select
 def gotodeletepatient(): # list all Users for select
     try:
         userid = Patient.getUserID(request)
-        jsonPatients = Patient.getAllPatients(userid)
+        role = g.role
+        print('User ID: ', userid, ' Role:', role)
+        if role == 'admin':
+            userid = -1        
+        jsonPatients = Patient.getAllPatients(userid = userid)
         params = Param.PatientsTableDeleteButton()
         return render_template('patients.html', results=jsonPatients, params=params), 200
     
