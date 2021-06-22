@@ -23,22 +23,29 @@ h1query_blueprint = Blueprint(
 
 
 @h1query_blueprint.route('/h1query', methods=['GET'])
-# @require_login
+@require_login
 # @require_admin
 def listallH1Queries():  # list all Patients for select
 
     try:
         patientid = request.args.get('patientid', default=-1)
-        print('Patientid:', patientid)
-        jsonPatients = H1Query.getAllH1Queries(patientid)
+        if g.role == 'admin':
+            userid = -1
+        else:
+            userid = g.userid
+        print('Userid : ', userid, ' Patientid:', patientid)
+        jsonPatients = H1Query.getAllH1Queries(patientid, userid)
         
         return render_template('queries.html', info=jsonPatients, params=Param.QueryTableNoButtons()), 200
 
     except Exception as err:
         print(err)  # for debugging
+        return render_template('queries.html', params=Param.QueryTableNoButtons()), 500
+
 
 
 @h1query_blueprint.route('/changeH1Query', methods=['GET'])
+@require_login
 def gotoUpdateH1Queries():
     try:
         jsonPatients = H1Query.getAllH1Queries()
@@ -50,7 +57,7 @@ def gotoUpdateH1Queries():
 
 
 @h1query_blueprint.route('/changeH1Query/<int:queryid>', methods=['POST'])
-# @require_login
+@require_login
 # @require_admin
 def updateH1Queries(queryid):
     try:
@@ -69,7 +76,7 @@ def updateH1Queries(queryid):
 
 
 @h1query_blueprint.route('/deleteH1Query', methods=['GET'])
-# @require_login
+@require_login
 # @require_admin
 def gotoDeleteH1Query():
     try:
@@ -81,7 +88,7 @@ def gotoDeleteH1Query():
 
 
 @h1query_blueprint.route('/deleteH1Query/<int:queryid>', methods=['GET'])
-# @require_login
+@require_login
 # @require_admin
 def deleteH1Query(queryid):
     # whatever the case, return to the page with the data table
@@ -105,7 +112,7 @@ def deleteH1Query(queryid):
 
 
 @h1query_blueprint.route('/hd',methods=['GET'])
-# @require_login
+@require_login
 # @require_admin
 def display():
     auth_token=request.cookies.get("jwt")
@@ -118,7 +125,7 @@ def display():
         return render_template('index.html',pats=pats)
 
 @h1query_blueprint.route('/predict',methods=['POST'])
-# @require_login
+@require_login
 # @require_admin
 def predict():
     auth_token=request.cookies.get("jwt")

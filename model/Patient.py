@@ -117,10 +117,10 @@ class Patient:
     @classmethod
     def getUserID(cls, request):
         try:
-            auth_token=request.cookies.get("jwt")
-            payload = jwt.decode(auth_token, Settings.secretKey, algorithms=["HS256"])
-            g.userid = payload['userid'] # update info in flask application context's g which lasts for one req/res cycle
-            g.role = payload['role']
+            # auth_token=request.cookies.get("jwt")
+            # payload = jwt.decode(auth_token, Settings.secretKey, algorithms=["HS256"])
+            # g.userid = payload['userid'] # update info in flask application context's g which lasts for one req/res cycle
+            # g.role = payload['role']
             return g.userid
         except Exception as err:
             print(err)

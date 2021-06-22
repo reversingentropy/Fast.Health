@@ -20,8 +20,8 @@ patient_blueprint = Blueprint('patient_blueprint', __name__, template_folder='te
 
 
 @patient_blueprint.route('/listallpatients', methods=['GET'])
-# @require_login
-# @require_admin
+@require_login
+#@require_admin
 def listallpatients():  # list all Patients for select
     try:
         userid = Patient.getUserID(request)
@@ -41,7 +41,7 @@ def listallpatients():  # list all Patients for select
         return render_template('patients.html', params=Param.PatientsTableDefButton()), 500
 
 @patient_blueprint.route('/insert_patients')
-# @require_login
+@require_login
 def newPatient():
     userid = Patient.getUserID(request)
     print(userid)
@@ -50,7 +50,7 @@ def newPatient():
 
 
 @patient_blueprint.route('/patient', methods=['POST'])
-# @require_login
+@require_login
 def insupdPatient():
     userid = Patient.getUserID(request)
     action = request.form['action']
@@ -87,7 +87,7 @@ def insupdPatient():
         return render_template('insupd_patients.html', params=Param.RegisteringWithErrorParams(), action=action, message=err, patient_dict=Patient.InitVal(userid)), 500
 
 @patient_blueprint.route('/updatePatient/<int:patientid>', methods=['GET'])
-# @require_login
+@require_login
 # @require_admin
 def updatePatient(patientid):
     try:
@@ -111,7 +111,7 @@ def updatePatient(patientid):
         return render_template('patients.html', params=Param.PatientsTableDefButton(), message=err), 500
 
 @patient_blueprint.route('/deletePatient/<int:patientid>', methods=['GET'])
-# @require_login
+@require_login
 # @require_admin
 def deletePatient(patientid):
     # whatever the case, return to the page with the data table
@@ -142,6 +142,7 @@ def deletePatient(patientid):
 
 
 @patient_blueprint.route('/update_patients', methods=['GET'])
+@require_login
 def gotoupdtepatient(): # list all Users for select
     try:
         userid = Patient.getUserID(request)
@@ -158,6 +159,7 @@ def gotoupdtepatient(): # list all Users for select
         abort(404)
 
 @patient_blueprint.route('/delete_patients', methods=['GET'])
+@require_login
 def gotodeletepatient(): # list all Users for select
     try:
         userid = Patient.getUserID(request)
