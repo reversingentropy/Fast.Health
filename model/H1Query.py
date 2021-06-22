@@ -49,16 +49,19 @@ class H1Query:
         return h1q
 
     @classmethod
-    def getAllH1Queries(cls, patientid=-1):
+    def getAllH1Queries(cls, patientid=-1, userid=-1):
         try:
             dbConn = DatabasePool.getConnection()
             db_Info = dbConn.connection_id
             print(f'Connected to {db_Info}')
             
             cursor = dbConn.cursor(dictionary=True)
-            if patientid==-1:
+            if userid ==-1:
                 sql = "SELECT * FROM h1queries;"
                 cursor.execute(sql)
+            elif patientid == -1 and userid != -1:
+                sql = "SELECT * FROM fasthealth.h1queries where patientid in (select patientid from patients where userid=%s);"
+                cursor.execute(sql,(userid,))
             else:
                 sql = "SELECT * FROM h1queries WHERE patientid=%s;"
                 cursor.execute(sql,(patientid,))

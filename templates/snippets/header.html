@@ -7,9 +7,8 @@
 
 <div class='container' style='padding:0px;width:100%'>
     <div width=100%>
-        <div id='admnmenu'>
-            <nav class="navbar navbar-expand-md navbar-fixed-top bg-light">
-                <div class="dropdown">
+        <nav class="navbar navbar-expand-md navbar-fixed-top bg-light">
+                <div id="patmenu" class="dropdown">
                     <button class="btn dropdown-toggle" type="button" id="patientMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Patients
                     </button>
@@ -20,7 +19,7 @@
                         <a href="{{ '/delete_patients' }}"class="dropdown-item">Delete</a>
                     </div>
                 </div>
-                <div class="dropdown">
+                <div id="testmenu" class="dropdown">
                     <button class="btn dropdown-toggle" type="button" id="testingMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Testing&nbsp;
                     </button>
@@ -28,7 +27,7 @@
                         <a href="{{ '/hd' }}" class="dropdown-item">Heart Disease</a>
                     </div>
                 </div>
-                <div class="dropdown">
+                <div id="qrymenu" class="dropdown">
                     <button class="btn dropdown-toggle" type="button" id="queriesMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Queries&nbsp;
                     </button>
@@ -38,7 +37,7 @@
                         <a href="{{ '/deleteH1Query' }}" class="dropdown-item">Delete</a>
                     </div>
                 </div>
-                <div class="dropdown">
+                <div id = "admnmenu" class="dropdown">
                     <button class="btn dropdown-toggle" type="button" id="queriesMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Users&nbsp;&nbsp;&nbsp;
                     </button>
@@ -48,7 +47,7 @@
                         <a href="{{ '/deleteUser' }}" class="dropdown-item">Delete</a>
                     </div>
                 </div>
-                <div class="dropdown">
+                <div id="abtmenu" class="dropdown">
                     <button class="btn dropdown-toggle" type="button" id="aboutMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         About&nbsp;&nbsp;&nbsp;
                     </button>
@@ -56,55 +55,10 @@
                         <a href="{{ '/aboutx' }}" class="dropdown-item">Tests</a>
                     </div>
                 </div>
-                <div class="ml-auto">
+            <div class="ml-auto">
                     <a href="/logout" class="btn btn-warning">Logout&nbsp;&nbsp;</a>
-                </div>
-            </nav>
-        </div>
-        <div id='usermenu'>
-            <nav class="navbar navbar-expand-md navbar-fixed-top bg-light">
-                <div class="dropdown">
-                    <button class="btn dropdown-toggle" type="button" id="patientMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      Patients
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a href="{{ '/listallpatients' }}" class="dropdown-item">List All</a>
-                        <a href="{{ '/insert_patients' }}" class="dropdown-item">New Patient</a>
-                        <a href="{{ '/update_patients' }}" class="dropdown-item">Update</a>
-                        <a href="{{ '/delete_patients' }}"class="dropdown-item">Delete</a>
-                    </div>
-                </div>
-                <div class="dropdown">
-                    <button class="btn dropdown-toggle" type="button" id="testingMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      Testing&nbsp;
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a href="{{ '/hd' }}" class="dropdown-item">Heart Disease</a>
-                    </div>
-                </div>
-                <div class="dropdown">
-                    <button class="btn dropdown-toggle" type="button" id="queriesMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      Queries&nbsp;
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a href="{{ '/h1query' }}" class="dropdown-item">List All</a>
-                        <a href="{{ '/changeH1Query' }}" class="dropdown-item">Update</a>
-                        <a href="{{ '/deleteH1Query' }}" class="dropdown-item">Delete</a>
-                    </div>
-                </div>
-                <div class="dropdown">
-                    <button class="btn dropdown-toggle" type="button" id="aboutMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      About&nbsp;&nbsp;&nbsp;
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a href="{{ '/aboutx' }}" class="dropdown-item">Tests</a>
-                    </div>
-                </div>
-                <div class="ml-auto">
-                    <a href="/logout" class="btn btn-warning">Logout&nbsp;&nbsp;</a>
-                </div>
-            </nav>
-        </div>
+            </div>
+        </nav>
     </div>
 </div>
 
@@ -125,19 +79,21 @@
     }
     var c = document.cookie;
     var dc = parseJwt(c);
-    var rstr = 'admin';
+    var astr = 'admin';
+    var ustr = 'user';
+    var mstr = 'member';
     var admnu = document.getElementById('admnmenu');
-    var urmnu = document.getElementById('usermenu');
-    if (dc === '') {
+    var patmnu = document.getElementById('patmenu');
+    var testmnu = document.getElementById('testmenu');
+    var qrymnu = document.getElementById('qrymenu');
+    var abtmnu  = document.getElementById('abtmenu');
+    if (dc === '' || dc['role'] === mstr ) {
+        // member  
         admnu.style.display = 'none';
-        urmnu.style.display = 'block';
-    } else {
-        if (rstr === dc['role'] ) {
-            admnu.style.display = 'block';
-            urmnu.style.display = 'none';
-        } else {
+        patmnu.style.display = 'none';
+        testmnu.style.display = 'none';
+        qrymnu.style.display = 'none';
+    } else if (dc['role'] === ustr) {
             admnu.style.display = 'none';
-            urmnu.style.display = 'block';
-        }
     }
 </script>
