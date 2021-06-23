@@ -8,19 +8,22 @@
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
 	
 		<style>
+			body {
+			  position:relative;
+			  z-index:-1;
+			  background-color: #31968e;				
+			  border-radius:10px;
+			}
 			.button {
 			  width: 100%;
 			}
 			.container-outer {
-			  /* background-color: #31968e; */
-			  min-height:500px;
-			  border-radius: 10px;
-			  background-image: url("{{ url_for('static', filename='img/RAS.jpg') }}");
-			  background-color: lightblue;
+			  min-height:550px;
+			  background: url('static/img/RAS.jpg') no-repeat bottom left;
 			}
 			.button-container form,
 			.button-container form div {
-				display: inline;
+			  display: inline;
 			}
 			.button-container button {
 				display: inline;
