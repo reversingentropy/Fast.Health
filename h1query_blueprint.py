@@ -31,8 +31,8 @@ def listallH1Queries():  # list all Patients for select
 
     try:
         patientid = request.args.get('patientid', default=-1)
-        if g.role == 'admin':
-            userid = -1
+        if g.role == 'admin'and patientid == -1: # From admin
+            userid = -1        
         else:
             userid = g.userid
         print('Userid : ', userid, ' Patientid:', patientid)
@@ -46,35 +46,35 @@ def listallH1Queries():  # list all Patients for select
 
 
 
-@h1query_blueprint.route('/changeH1Query', methods=['GET'])
-@require_login
-def gotoUpdateH1Queries():
-    try:
-        jsonPatients = H1Query.getAllH1Queries()
+# @h1query_blueprint.route('/changeH1Query', methods=['GET'])
+# @require_login
+# def gotoUpdateH1Queries():
+#     try:
+#         jsonPatients = H1Query.getAllH1Queries()
         
-        return render_template('queries.html', info=jsonPatients, params=Param.QueryTableUpdateButton()), 200
+#         return render_template('queries.html', info=jsonPatients, params=Param.QueryTableUpdateButton()), 200
 
-    except Exception as err:
-        print(err)  # for debugging
+#     except Exception as err:
+#         print(err)  # for debugging
 
 
-@h1query_blueprint.route('/changeH1Query/<int:queryid>', methods=['POST'])
-@require_login
-# @require_admin
-def updateH1Queries(queryid):
-    try:
-        output = H1Query.updateH1Query(queryid)
-        jsonOutput = {'Rows Affected': output}
+# @h1query_blueprint.route('/changeH1Query/<int:queryid>', methods=['POST'])
+# @require_login
+# # @require_admin
+# def updateH1Queries(queryid):
+#     try:
+#         output = H1Query.updateH1Query(queryid)
+#         jsonOutput = {'Rows Affected': output}
 
-        if output > 0:
-            return render_template('queries.html', params=Param.QueryTableUpdateButton()), 201
+#         if output > 0:
+#             return render_template('queries.html', params=Param.QueryTableUpdateButton()), 201
 
-        else:
-            return render_template('queries.html', params=Param.QueryTableUpdateButton()), 500
+#         else:
+#             return render_template('queries.html', params=Param.QueryTableUpdateButton()), 500
 
-    except Exception as err:
-        print(err)
-        return render_template('queries.html', params=Param.QueryTableUpdateButton()), 500
+#     except Exception as err:
+#         print(err)
+#         return render_template('queries.html', params=Param.QueryTableUpdateButton()), 500
 
 
 @h1query_blueprint.route('/deleteH1Query', methods=['GET'])
@@ -82,11 +82,19 @@ def updateH1Queries(queryid):
 # @require_admin
 def gotoDeleteH1Query():
     try:
-        jsonPatients = H1Query.getAllH1Queries()
+        patientid = request.args.get('patientid', default=-1)
+        if g.role == 'admin':
+            userid = -1
+        else:
+            userid = g.userid
+        print('Userid : ', userid, ' Patientid:', patientid)
+
+        jsonPatients = H1Query.getAllH1Queries(patientid, userid)
         return render_template('queries.html', info=jsonPatients, params=Param.QueryTableDeleteButton()), 200
 
     except Exception as err:
         print(err)  # for debugging
+        return render_template('queries.html', params=Param.QueryTableNoButtons()), 500
 
 
 @h1query_blueprint.route('/deleteH1Query/<int:queryid>', methods=['GET'])
@@ -98,7 +106,14 @@ def deleteH1Query(queryid):
         #print("deleteH1Query ", queryid)
         output = H1Query.deleteH1Query(queryid)
         if output > 0:
-            jsonH1Queries = H1Query.getAllH1Queries()
+            patientid = request.args.get('patientid', default=-1)
+            if g.role == 'admin':
+                userid = -1
+            else:
+                userid = g.userid
+            print('Userid : ', userid, ' Patientid:', patientid)
+
+            jsonH1Queries = H1Query.getAllH1Queries(patientid, userid)
             params = Param.QueryTableDeleteButton()
             resp = make_response(render_template(
                 'queries.html', params=params, info=jsonH1Queries), 200)
@@ -135,35 +150,42 @@ def predict():
     if len(pats)==0:
         return render_template('indexEmpty.html')
     else:
-        new_model = pickle.load(open(Settings.modelFile, 'rb'))
-        patient = int(request.form['pId'])
-        age = int(request.form['age'])
-        gender = int(request.form['gender'])
-        cp = int(request.form['cp'])
-        trestbps = int(request.form['rbp'])
-        chol = int(request.form['chol'])
-        if 'fbs' in request.form: 
-            fbs = 1
-        else:
-            fbs = 0
-        restecg = int(request.form['restecg'])
-        thalach = int(request.form['thalach'])
-        if 'exang' in request.form: 
-            exang = 1
-        else:
-            exang = 0
-        oldpeak = float(request.form['oldpeak'])
-        slope = int(request.form['slope'])
-        ca =  int(request.form['ca'])
-        thal =  int(request.form['thal'])
-        data = [age,gender,cp,trestbps,chol,fbs,restecg,thalach,exang,oldpeak,slope,ca,thal]
-        y_pred= new_model.predict([data])
-        prediction = ["No Heart Disease","Heart Disease"][(y_pred[0])]
-        num = int((y_pred[0]))
-        info = {"patientid" : patient, "result":num,"age" : age, "sex" : gender, "cp":cp,"trestbps" : trestbps,"chol":chol,"fbs":fbs,"restecg":restecg,"thalach":thalach,"exang":exang,"oldpeak":oldpeak,"slope":slope,"ca":ca,"thal":thal}
-        H1Query.insertH1Query(info)
-        prediction = "Prediction : " + prediction +"."
-        return render_template('index.html',prediction=prediction,pats=pats)
+        try:
+            new_model = pickle.load(open(Settings.modelFile, 'rb'))
+            patient = int(request.form['pId'])
+            age = int(request.form['age'])
+            gender = int(request.form['gender'])
+            cp = int(request.form['cp'])
+            trestbps = int(request.form['rbp'])
+            chol = int(request.form['chol'])
+            if 'fbs' in request.form: 
+                fbs = 1
+            else:
+                fbs = 0
+            restecg = int(request.form['restecg'])
+            thalach = int(request.form['thalach'])
+            if 'exang' in request.form: 
+                exang = 1
+            else:
+                exang = 0
+            oldpeak = float(request.form['oldpeak'])
+            slope = int(request.form['slope'])
+            ca =  int(request.form['ca'])
+            thal =  int(request.form['thal'])
+            data = [age,gender,cp,trestbps,chol,fbs,restecg,thalach,exang,oldpeak,slope,ca,thal]
+            y_pred= new_model.predict([data])
+            prediction = ["No Heart Disease","Heart Disease"][(y_pred[0])]
+            num = int((y_pred[0]))
+            info = {"patientid" : patient, "result":num,"age" : age, "sex" : gender, "cp":cp,"trestbps" : trestbps,"chol":chol,"fbs":fbs,"restecg":restecg,"thalach":thalach,"exang":exang,"oldpeak":oldpeak,"slope":slope,"ca":ca,"thal":thal}
+            H1Query.insertH1Query(info)
+            prediction = "Prediction : " + prediction +"."
+            print(prediction)
+            return render_template('index.html',prediction=prediction,pats=pats), 200
+        except Exception as err:
+            print(err)
+            prediction = ''
+            return render_template('index.html',prediction=prediction,pats=pats), 500
+
 
 @h1query_blueprint.route('/batchhd',methods=['GET','POST'])
 @require_login

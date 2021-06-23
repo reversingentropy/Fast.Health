@@ -14,19 +14,6 @@ from datetime import datetime
 
 class H1Query:
 
-    # @classmethod
-    # def initPredInfo(cls):
-    #     info = {}
-    #     info['userid'] = -1
-    #     info['sepalLength'] = 0.000
-    #     info['sepalWidth'] = 0.000
-    #     info['petalLength'] = 0.000
-    #     info['petalWidth'] = 0.000
-    #     info['prediction'] = 'Unknown'
-    #     info['InsertionDate'] = datetime.now()
-
-    #     return info
-
     @classmethod
     def initH1Query(cls):
         h1q = {}
@@ -56,13 +43,13 @@ class H1Query:
             print(f'Connected to {db_Info}')
             
             cursor = dbConn.cursor(dictionary=True)
-            if userid ==-1:
+            if userid ==-1 and patientid == -1: ## From Admin
                 sql = "SELECT * FROM h1queries;"
                 cursor.execute(sql)
-            elif patientid == -1 and userid != -1:
-                sql = "SELECT * FROM fasthealth.h1queries where patientid in (select patientid from patients where userid=%s);"
+            elif patientid == -1 and userid != -1:  # From User
+                sql = "SELECT * FROM h1queries where patientid in (select patientid from patients where userid=%s);"
                 cursor.execute(sql,(userid,))
-            else:
+            else: # From Patient
                 sql = "SELECT * FROM h1queries WHERE patientid=%s;"
                 cursor.execute(sql,(patientid,))
             h1queries = cursor.fetchall()

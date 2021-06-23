@@ -70,7 +70,7 @@ def insupdPatient():
     try:  
         if action == 'insert':  # Insert
             output = Patient.insertPatient(patient_dict)
-            msgOutput = 'Rows Affected=' + str( output )
+            msgOutput = '' + str( output ) + ' rec added to DB.'
             return render_template('insupd_patients.html', params=Param.SetAllFalseParams(), action=action, message='Status: '+ msgOutput, patient_dict=Patient.InitVal(userid)), 201
 
         else: # Update
@@ -78,6 +78,8 @@ def insupdPatient():
             print('PatID:', patientid)
             output = Patient.updatePatient(patientid, patient_dict)
             msgOutput =  str( output ) + ' record updated.'
+            if g.role == 'admin':
+                userid = -1
             jsonPatients = Patient.getAllPatients(userid)
             params = Param.PatientsTableUpdateButton()
             return render_template('patients.html', results=jsonPatients, params=params, action=action, message=msgOutput), 200
@@ -117,6 +119,8 @@ def deletePatient(patientid):
     # whatever the case, return to the page with the data table
     try:
         userid = Patient.getUserID(request)
+        if g.role == 'admin':
+            userid = -1
         print(patientid)
         output = Patient.deletePatient(patientid)
         if output > 0:
