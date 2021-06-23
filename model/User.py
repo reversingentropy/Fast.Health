@@ -113,6 +113,10 @@ class User:
 
                     rows = cursor.rowcount
                     return rows
+
+                except:
+                    print('Delete function error')
+                    return -1
                 finally:
                     dbConn.close()
                     print('release connection')
