@@ -6,14 +6,14 @@ class Settings:
 
     modelFile = "./data/model.pkl" # machine learning model
 
-    dbUsed = 'local'
+    dbUsed = 'heroku'
 
     if dbUsed == 'local':
         #Staging on local machine
-        host='localhost'
-        database='test'
-        user='root'
-        password='Niwhsa1994'
+        host=''
+        database=''
+        user=''
+        password=''
 
     else:
         #Staging on heroku
