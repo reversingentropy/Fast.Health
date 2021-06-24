@@ -11,7 +11,7 @@
 			body {
 				position:relative;
 				z-index:-1;
-				background-color: #31968e;				
+				background-color:#31968E;				
 				border-radius:10px;
 			}
 			.button {
@@ -19,7 +19,9 @@
 			}
 			.container-outer {
 			  min-height:550px;
-			  background: url('static/img/RAS.jpg') no-repeat bottom left;
+			  background: url('static/img/RARA.jpg') no-repeat ;
+			  background-position: 50% 100%;
+			  background-size: 60%;
 			}
 			.button-container form,
 			.button-container form div {
@@ -29,6 +31,14 @@
 				display: inline;
 				vertical-align: middle;
 			}
+
+			@media only screen and (max-width: 600px) {
+				.container-outer {
+			  background: url('static/img/RARA.jpg') no-repeat ;
+			  background-size: 100%;
+			  background-position: 25% 75%;
+			}
+
 		</style>
 		<script>
 			var li = {{ params['loggingIn']|tojson }};
