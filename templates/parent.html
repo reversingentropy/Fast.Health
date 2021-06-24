@@ -19,64 +19,11 @@
 		<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/proper/.js/1.14.7/umd/proper.min.js"></script> -->
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.6.0/js/bootstrap.min.js"></script>
 	
+		<!-- Prent Stylesheet -->
+		<link rel="stylesheet" href="static/css/parent.css">
 		<style>
-			.button {
-			  width: 100%;
-			}
 			.container-outer {
-			  /* height: 1080px; */
-			  border: solid 2px dodgerblue;
-			  border-radius: 10px;
-			  background-image: url("{{ url_for('static', filename='img/healthcare2-1920x1080.jpg') }}");
-			}
-			.button-container form,
-			.button-container form div {
-				display: inline;
-			}
-			.button-container button {
-				display: inline;
-				vertical-align: middle;
-			}
-			table {
-				border-collapse: collapse;
-			}
-			th, td {
-				text-align: left;
-				padding: 8px;
-			}
-			tr:nth-child(even) {
-				background-color: #f2f2f2;
-			}
-
-			/* Style for portrait/mobile mode table */
-			@media screen and (max-width: 600px) {
-				table {
-					width: 100%;
-				}
-
-				table thead {
-					display: none;
-				}
-
-				table tr, table td {
-					padding: 5px;
-				}
-
-				table td {
-					display: flex;
-				}
-				
-				table td::before {
-					content: attr(label);
-					font-weight: bold;
-					width: 120px;
-					min-width: 120px;
-				}
-
-				.portraitTableHead{
-					background-color:yellowgreen;
-					font-weight: bold;
-				}
+				background-image: url("{{ url_for('static', filename='img/healthcare2-1920x1080.jpg') }}");
 			}
 		</style>
 		<script type="text/javascript" language="javascript">
