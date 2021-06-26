@@ -20,7 +20,13 @@
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.6.0/js/bootstrap.min.js"></script>
 	
 		<!-- Prent Stylesheet -->
-		<link rel="stylesheet" href="static/css/parent.css">
+		<style>
+			body {
+				background-color: #31968e;
+				/*background-color: blueviolet; */
+			}
+		</style>
+		<link rel="stylesheet" href="./static/css/parent.css">
 		<style>
 			.container-outer {
 				background-image: url("{{ url_for('static', filename='img/healthcare2-1920x1080.jpg') }}");
@@ -42,7 +48,6 @@
 		<title>Fast.Health</title>
 	</head>
 <body>
-
 
 		<div class="container container-outer">
 			{% include "snippets/header.html" %}

@@ -131,18 +131,18 @@ def deletePatient(patientid):
             # Display list of patients            
         jsonPatients = Patient.getAllPatients(userid)
         params = Param.PatientsTableDeleteButton()
-        resp = make_response(render_template('patients.html', params=params, results=jsonPatients, message=msgOutput),ret)
+        #resp = make_response(render_template('patients.html', params=params, results=jsonPatients, message=msgOutput),ret)
 #        resp.set_cookie('jwt', output["jwt"]) #writes instructions in the header for browser to save a cookie to browser for the jwt 
-        return resp
+        return render_template('patients.html', params=params, results=jsonPatients, message=msgOutput), ret
 
     except Exception as err:
         print(err)
         jsonPatients = Patient.getAllPatients(userid)
         params = Param.PatientsTableDeleteButton()
         msgOutput = "Error to delete patient with ID " + str(patientid)
-        resp = make_response(render_template('patients.html', params=params, results=jsonPatients, message=msgOutput), 401)
+#        resp = make_response(render_template('patients.html', params=params, results=jsonPatients, message=msgOutput), 401)
 #        return render_template('patients.html', params=Param.LoggingWithErrorParams()), 401
-        return resp
+        return render_template('patients.html', params=params, results=jsonPatients, message=msgOutput), 401
 
 
 @patient_blueprint.route('/update_patients', methods=['GET'])
