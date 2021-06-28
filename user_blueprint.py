@@ -42,8 +42,8 @@ def logout():
     return resp
 
 @user_blueprint.route('/user', methods=['GET'])
-# @require_login
-# @require_admin
+@require_login
+@require_admin
 def listallUsers(): # list all Users for select
     try:
         jsonUsers = User.getAllUsers()
@@ -54,8 +54,8 @@ def listallUsers(): # list all Users for select
         print(err)  # for debugging
 
 @user_blueprint.route('/changeRoleUser', methods=['GET'])
-# @require_login
-# @require_admin
+@require_login
+@require_admin
 def gotoChangeRole(): # list all Users for select
     try:
         jsonUsers = User.getAllUsers()
@@ -65,8 +65,8 @@ def gotoChangeRole(): # list all Users for select
         print(err)  # for debugging
     
 @user_blueprint.route('/deleteUser', methods=['GET'])
-# @require_login
-# @require_admin
+@require_login
+@require_admin
 def gotoDeleteUser(): # list all Users for select
     try:
         jsonUsers = User.getAllUsers()
@@ -140,8 +140,8 @@ def updateUser():
         return render_template('login.html', params=Param.ForgotWithErrorParams()), 500
 
 @user_blueprint.route('/changeRoleUser/<int:userid>', methods=['GET'])
-# @require_login
-# @require_admin
+@require_login
+@require_admin
 def changeroleUser(userid):
     jsonUsers = None
     try:        
@@ -159,8 +159,8 @@ def changeroleUser(userid):
         return render_template('users.html', results=jsonUsers, params=Param.UserTableChangeButton()), 500
 
 @user_blueprint.route('/deleteUser/<int:userid>', methods=['GET'])
-# @require_login
-# @require_admin
+@require_login
+@require_admin
 def deleteUser(userid):
     # whatever the case, return to the page with the data table
     jsonUsers = None

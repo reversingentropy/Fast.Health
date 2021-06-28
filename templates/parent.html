@@ -19,14 +19,14 @@
 		<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/proper/.js/1.14.7/umd/proper.min.js"></script> -->
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.6.0/js/bootstrap.min.js"></script>
 	
-		<!-- Prent Stylesheet -->
+		<!-- Prent Stylesheet
 		<style>
 			body {
 				background-color: #31968e;
 				/*background-color: blueviolet; */
 			}
-		</style>
-		<link rel="stylesheet" href="./static/css/parent.css">
+		</style>-->
+		<link type="text/css"  rel="stylesheet" href="{{ url_for('static', filename='css/parent.css') }}"/>
 		<style>
 			.container-outer {
 				background-image: url("{{ url_for('static', filename='img/healthcare2-1920x1080.jpg') }}");

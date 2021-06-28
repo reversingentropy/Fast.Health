@@ -19,28 +19,33 @@ other_blueprint = Blueprint('other_blueprint', __name__, template_folder='templa
 # Other links
 #
 @other_blueprint.route('/aboutx')
+@require_login
 def about():
     print('about page')
     return render_template('about.html')
 
 @other_blueprint.route('/userx')
+@require_login
 def user():
     print('user page')
     return render_template('users.html')
 	
-@other_blueprint.route('/testingx')
-def testing():
-    print('testing page')
-    return render_template('testing.html')
+# @other_blueprint.route('/testingx')
+# @require_login
+# def testing():
+#     print('testing page')
+#     return render_template('testing.html')
 	
-@other_blueprint.route('/shortcut', methods=['GET','POST'])
-def shortcut():
-    return render_template('index.html'),200
+# @other_blueprint.route('/shortcut', methods=['GET','POST'])
+# @require_login
+# def shortcut():
+#     return render_template('index.html'),200
 
 #
 # Catch All
 # 
 @other_blueprint.route('/<string:page>')
+@require_login
 def getPage(page):
     try:
         return render_template(page),200

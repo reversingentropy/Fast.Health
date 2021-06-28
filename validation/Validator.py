@@ -1,5 +1,5 @@
 import functools
-from flask import Flask, jsonify, request, g, render_template
+from flask import Flask, jsonify, request, g, render_template, make_response
 from config.Settings import Settings
 from model.Params import Param
 
@@ -22,12 +22,16 @@ def require_login(func):
                 g.userid = payload['userid'] # update info in flask application context's g which lasts for one req/res cycle
                 g.role = payload['role']
 
-            except jwt.exceptions.InvalidSignatureError as err:
+            except (jwt.exceptions.InvalidSignatureError, jwt.exceptions.ExpiredSignatureError) as err:
                 print(err)
                 auth = False # Failed check
 
         if auth==False:
-            return render_template('login.html', params=Param.LoggingWithErrorParams()), 401
+#            return render_template('login.html', params=Param.LoggingWithErrorParams()), 401
+            resp = make_response(render_template("login.html", params=Param.SetAllFalseParams()),200)
+            resp.delete_cookie('jwt')
+            return resp
+            
         return func(*args, **kwargs)
     
     return secure_login
