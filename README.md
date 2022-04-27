@@ -13,9 +13,9 @@ https://fasthealth.herokuapp.com/
 
 Please request for admin access!
 
-Work done by :
+Scrum Team:
+* Ashwin (Scrum Master)
+* Daniel (Product Owner)
 * Anita
-* Ashwin
 * Chee Ping
-* Daniel
 * Guan Hao
