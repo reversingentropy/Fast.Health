@@ -1,3 +1,9 @@
+![This is an image](https://raw.githubusercontent.com/reversingentropy/Fast.Health/main/static/img/logo8.jpg)
+
+
+
+### Singapore Poly SGUS Data Science Project
+
 This repository includes the code for the Singapore Poly SGUS Data Science Project. 
 
 Machine learning to predict Heart Diseases.
