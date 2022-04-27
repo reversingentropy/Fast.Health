@@ -14,8 +14,8 @@ https://fasthealth.herokuapp.com/
 Please request for admin access!
 
 Work done by :
-Anita
-Ashwin
-Chee Ping
-Daniel
-Guan Hao
+* Anita
+* Ashwin
+* Chee Ping
+* Daniel
+* Guan Hao
